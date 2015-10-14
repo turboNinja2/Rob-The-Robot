@@ -2,8 +2,8 @@
 
 namespace rossum.Reading.Readers
 {
-    interface IReader
+    public interface IReader
     {
-        public Dictionary<string, double> Read(string input);
+        string Read(string input);
     }
 }

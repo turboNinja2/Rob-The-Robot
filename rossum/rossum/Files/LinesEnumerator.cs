@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace rossum.FileUtils
+namespace rossum.Files
 {
     public static class LinesEnumerator
     {
