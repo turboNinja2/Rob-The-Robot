@@ -99,3 +99,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.suo
+rossum/rossum/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+*.exe
