@@ -28,5 +28,25 @@ namespace rossum.Reading
             }
             return encyclopedia.ToArray();
         }
+
+        public static string[] ImportLines(string filePath, IReader reader)
+        {
+            List<string> encyclopedia = new List<string>();
+            int linesRead = 0;
+
+            foreach (string line in LinesEnumerator.YieldLines(filePath))
+            {
+                string res = reader.Read(line);
+
+                encyclopedia.Add(res);
+                linesRead++;
+
+                if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
+                {
+                    Console.Write('.');
+                }
+            }
+            return encyclopedia.ToArray();
+        }
     }
 }

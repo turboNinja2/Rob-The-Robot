@@ -51,15 +51,16 @@
     <Compile Include="Machine\Learning\SparseDistances\KernelDistance.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\SparseKernels\ISparseKernel.cs">
+    <Compile Include="Machine\Learning\Kernels\SparseKernels\ISparseKernel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\SparseKernels\Linear.cs">
+    <Compile Include="Machine\Learning\Kernels\SparseKernels\Linear.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\SparseKernels\Poly.cs">
+    <Compile Include="Machine\Learning\Kernels\SparseKernels\Poly.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Machine\Learning\Kernels\StringKernels\IStringKernel.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
     <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />
