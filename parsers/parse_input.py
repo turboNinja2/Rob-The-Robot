@@ -2,6 +2,7 @@
 
 
 from parser import parser
+from time import sleep
 
 
 
@@ -15,5 +16,8 @@ spam_reader.next()
 
 
 for row in spam_reader:
+  pass
+  """
   print row
-  break
+  sleep(0.5)
+  """
