@@ -42,7 +42,7 @@ namespace rossum.Machine.Learning
             _invertedIndexes = SmartIndexes.InverseKeys(points, 0, _INVERTED_INDEXES_PREALLOC_);
         }
 
-        public double Predict(Dictionary<T, double> pt)
+        public double DistanceToClosestPoint(Dictionary<T, double> pt)
         {
             return ClosestDistances(_labels, _points, pt, _nbNeighbours, _distance)[0];
         }

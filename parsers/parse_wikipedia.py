@@ -16,3 +16,5 @@ def import_clean_and_write(article_name):
     
 import_clean_and_write("New York")
 import_clean_and_write("Sport")
+import_clean_and_write("Cat")
+import_clean_and_write("Dog")

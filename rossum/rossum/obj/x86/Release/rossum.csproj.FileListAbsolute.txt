@@ -1,0 +1,4 @@
+C:\Users\Windows\Desktop\R\Rob-The-Robot\rossum\rossum\bin\Release\rossum.exe
+C:\Users\Windows\Desktop\R\Rob-The-Robot\rossum\rossum\bin\Release\rossum.pdb
+C:\Users\Windows\Desktop\R\Rob-The-Robot\rossum\rossum\obj\x86\Release\rossum.exe
+C:\Users\Windows\Desktop\R\Rob-The-Robot\rossum\rossum\obj\x86\Release\rossum.pdb

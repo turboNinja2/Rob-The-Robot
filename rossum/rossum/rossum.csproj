@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Machine\Answering\Matcher.cs" />
     <Compile Include="Machine\Learning\KNN.cs" />
     <Compile Include="Machine\Learning\SparseDistances\ISparseDistance.cs">
       <SubType>Code</SubType>
@@ -59,15 +60,22 @@
     <Compile Include="Machine\Learning\SparseKernels\Poly.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Reading\Question.cs" />
+    <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
+    <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />
+    <Compile Include="Machine\Reading\Stemmers\Among.cs" />
+    <Compile Include="Machine\Reading\Stemmers\EnglishStemmer.cs" />
+    <Compile Include="Machine\Reading\Stemmers\IStemmer.cs" />
+    <Compile Include="Machine\Reading\Stemmers\StemmerOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Machine\Reading\EncyclopediaReader.cs" />
     <Compile Include="Machine\Reading\Readers\IReader.cs" />
-    <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />
+    <Compile Include="Machine\Reading\Readers\EnglishStemming.cs" />
     <Compile Include="Machine\Reading\QuestionnaireReader.cs" />
+    <Compile Include="Settings\DisplaySettings.cs" />
     <Compile Include="Tools\SmartIndexes.cs" />
+    <Compile Include="Tools\TextToData.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
