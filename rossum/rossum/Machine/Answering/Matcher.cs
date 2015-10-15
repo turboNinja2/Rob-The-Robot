@@ -54,13 +54,13 @@ namespace rossum.Machine.Answering
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
-                    Dictionary<string, double> readQuestion = TextToData.Counts(proposals[i]);
+                    Dictionary<string, double> readQuestion = TextToData.Counts(_reader.Read(proposals[i]));
                     distancesToEncyclopediaSpace[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 
                 if (k == 0)
                 {
-                    Console.WriteLine(String.Join("\n", proposals));
+                    Console.WriteLine(String.Join("\n", proposals.Select(c=>_reader.Read(c))));
                 }
 
                 int bestcandidate = Array.FindIndex(distancesToEncyclopediaSpace, d => d == distancesToEncyclopediaSpace.Min());
