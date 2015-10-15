@@ -105,3 +105,4 @@ rossum/rossum/obj/x86/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.exe
 *.pdb
 rossum/rossum/obj/x86/Debug/rossum.csproj.FileListAbsolute.txt
+*.txt
