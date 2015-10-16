@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace rossum.Learning.SparseDistances
+namespace rossum.Machine.Learning.SparseDistances
 {
     public interface ISparseDistance
     {

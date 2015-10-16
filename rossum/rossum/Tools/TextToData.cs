@@ -24,7 +24,7 @@ namespace rossum.Tools
             return res;
         }
 
-        public static string[] ImportIds(string filePath)
+        public static string[] ImportColumn(string filePath, int colIndex)
         {
             List<string> res = new List<string>();
             int linesRead = 0;
@@ -32,7 +32,7 @@ namespace rossum.Tools
             {
                 linesRead++;
                 if (linesRead == 1) continue;
-                res.Add(line.Split('\t')[0]);
+                res.Add(line.Split('\t')[colIndex]);
 
             }
             return res.ToArray();

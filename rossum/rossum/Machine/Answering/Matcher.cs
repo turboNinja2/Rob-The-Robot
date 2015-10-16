@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using rossum.Answering;
-using rossum.Learning.SparseDistances;
 using rossum.Machine.Learning;
+using rossum.Machine.Learning.SparseDistances;
 using rossum.Reading;
 using rossum.Reading.Readers;
 using rossum.Settings;
 using rossum.Tools;
-using System.Threading.Tasks;
 
 namespace rossum.Machine.Answering
 {
@@ -41,8 +41,8 @@ namespace rossum.Machine.Answering
 
             Console.Write("Started prediction");
 
-            //for (int k = 0; k < questions.Length; k++)
-            Parallel.For(0, questions.Length, k =>
+            for (int k = 0; k < questions.Length; k++)
+            //Parallel.For(0, questions.Length, k =>
             {
                 
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
@@ -70,7 +70,7 @@ namespace rossum.Machine.Answering
                 int bestcandidate = Array.FindIndex(distancesToEncyclopediaSpace, d => d == distancesToEncyclopediaSpace.Min());
 
                 results[k] = bestcandidate == 0 ? "A" : bestcandidate == 1 ? "B" : bestcandidate == 2 ? "C" : "D";
-            });
+            }//);
 
             return results;
         }

@@ -62,6 +62,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Machine\Learning\Kernels\StringKernels\IStringKernel.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\JaccardDistance.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
     <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />

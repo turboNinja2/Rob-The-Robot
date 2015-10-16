@@ -1,7 +1,7 @@
 ﻿using rossum.Learning.SparseKernels;
 using System.Collections.Generic;
 
-namespace rossum.Learning.SparseDistances
+namespace rossum.Machine.Learning.SparseDistances
 {
     class KernelDistance : ISparseDistance
     {

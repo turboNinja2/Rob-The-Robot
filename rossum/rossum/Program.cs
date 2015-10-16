@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using rossum.Reading.Readers;
-using rossum.Reading;
-using rossum.Answering;
-using rossum.Learning.SparseKernels;
-using rossum.Learning.SparseDistances;
-using rossum.Machine.Answering;
-using System.IO;
-using rossum.Tools;
 using rossum.Files;
+using rossum.Machine.Answering;
+using rossum.Machine.Learning.SparseDistances;
+using rossum.Reading.Readers;
+using rossum.Tools;
+using rossum.Learning.SparseKernels;
 
 namespace rossum
 {
@@ -19,7 +13,7 @@ namespace rossum
         static void Main(string[] args)
         {
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\parsers\encyclopedia_small\_AllArticles.txt",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\CK12.ency",
                 outFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\_Answers.txt";
             bool train = true;
 
@@ -49,14 +43,29 @@ namespace rossum
             }
 
             IReader reader = new EnglishStemming();
-            ISparseKernel linear = new Linear();
-            ISparseDistance euclide = new KernelDistance(linear);
 
-            Matcher robot = new Matcher(euclide, reader);
+            //ISparseKernel myKernel = new Linear();
+            //ISparseDistance myDist = new KernelDistance(myKernel);
+
+            ISparseDistance myDist = new JaccardDistance();
+
+            Matcher robot = new Matcher(myDist, reader);
             string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train);
-            string[] ids = TextToData.ImportIds(questionFilePath);
 
-            SubmissionWriter.Write(answers, ids, outFilePath);
+            if (train)
+            {
+                string[] actualAnswers = TextToData.ImportColumn(questionFilePath, 2);
+                int good = 0;
+                for (int i = 0; i < actualAnswers.Length; i++)
+                    if (actualAnswers[i] == answers[i])
+                        good++;
+                Console.WriteLine("Score=" + good * 1f / answers.Length);
+            }
+            else
+            {
+                string[] ids = TextToData.ImportColumn(questionFilePath, 0);
+                SubmissionWriter.Write(answers, ids, outFilePath);
+            }
         }
     }
 }
