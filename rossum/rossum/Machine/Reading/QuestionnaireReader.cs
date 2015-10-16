@@ -16,7 +16,7 @@ namespace rossum.Reading.Readers
             {
                 linesRead++;
                 if (linesRead == 1) continue;
-                questions.Add(new RawQuestion(line, train));
+                questions.Add(new RawQuestion(reader.Read(line), train));
 
                 if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
                 {
@@ -25,5 +25,7 @@ namespace rossum.Reading.Readers
             }
             return questions.ToArray();
         }
+
+
     }
 }

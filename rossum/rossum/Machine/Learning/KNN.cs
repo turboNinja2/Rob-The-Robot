@@ -20,13 +20,15 @@ namespace rossum.Machine.Learning
 
         private Distance _distance;
         private int _nbNeighbours;
+        private int _maxOccurences;
 
         #endregion
 
-        public SparseKNN(Distance distance, int nbNeighbours, double minTFIDF)
+        public SparseKNN(Distance distance, int nbNeighbours, int maxOccurences)
         {
             _distance = distance;
             _nbNeighbours = nbNeighbours;
+            _maxOccurences = maxOccurences;
         }
 
         /// <summary>
@@ -35,16 +37,15 @@ namespace rossum.Machine.Learning
         /// </summary>
         /// <param name="labels"></param>
         /// <param name="points"></param>
-        public void Train(int[] labels, Dictionary<T, double>[] points)
+        public void Train(Dictionary<T, double>[] points)
         {
-            _labels = labels;
             _points = points;
-            _invertedIndexes = SmartIndexes.InverseKeys(points, 0, _INVERTED_INDEXES_PREALLOC_);
+            _invertedIndexes = SmartIndexes.InverseKeys(points, _maxOccurences);
         }
 
         public double DistanceToClosestPoint(Dictionary<T, double> pt)
         {
-            return ClosestDistances(_labels, _points, pt, _nbNeighbours, _distance)[0];
+            return ClosestDistances(_points, pt, _nbNeighbours, _distance)[0];
         }
 
         public string Description()
@@ -55,12 +56,11 @@ namespace rossum.Machine.Learning
         /// <summary>
         /// Returns the labels of the nearest neighbours
         /// </summary>
-        /// <param name="labels"></param>
         /// <param name="sample"></param>
         /// <param name="newPoint"></param>
         /// <param name="nbNeighbours"></param>
         /// <returns></returns>
-        private double[] ClosestDistances(int[] labels, Dictionary<T, double>[] sample, Dictionary<T, double> newPoint, int nbNeighbours, Distance distance)
+        private double[] ClosestDistances(Dictionary<T, double>[] sample, Dictionary<T, double> newPoint, int nbNeighbours, Distance distance)
         {
             T[] keys = newPoint.Keys.ToArray();
 

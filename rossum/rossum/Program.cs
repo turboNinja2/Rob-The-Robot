@@ -9,6 +9,8 @@ using rossum.Learning.SparseKernels;
 using rossum.Learning.SparseDistances;
 using rossum.Machine.Answering;
 using System.IO;
+using rossum.Tools;
+using rossum.Files;
 
 namespace rossum
 {
@@ -16,9 +18,8 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            string trainFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                testFilePath = "",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\parsers\_AllArticles.txt",
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\parsers\encyclopedia_small\_AllArticles.txt",
                 outFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\_Answers.txt";
             bool train = true;
 
@@ -28,7 +29,7 @@ namespace rossum
                 Console.WriteLine(args[i]);
                 if (args[i] == "-train")
                 {
-                    trainFilePath = args[i + 1];
+                    questionFilePath = args[i + 1];
                     train = true;
                 }
                 if (args[i] == "-encyclopedia")
@@ -36,7 +37,7 @@ namespace rossum
 
                 if (args[i] == "-test")
                 {
-                    testFilePath = args[i + 1];
+                    questionFilePath = args[i + 1];
                     train = false;
                 }
 
@@ -52,10 +53,10 @@ namespace rossum
             ISparseDistance euclide = new KernelDistance(linear);
 
             Matcher robot = new Matcher(euclide, reader);
-            string[] answers = robot.Answer(trainFilePath, encyclopediaFilePath, train);
+            string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train);
+            string[] ids = TextToData.ImportIds(questionFilePath);
 
-            File.WriteAllLines(outFilePath, answers);
-
+            SubmissionWriter.Write(answers, ids, outFilePath);
         }
     }
 }

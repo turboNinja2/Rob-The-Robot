@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\Matcher.cs" />
     <Compile Include="Machine\Learning\KNN.cs" />
     <Compile Include="Machine\Learning\SparseDistances\ISparseDistance.cs">

@@ -13,7 +13,7 @@ namespace rossum.Tools
         /// Returns an inverted dictionnary of the keys.
         /// </summary>
         /// <param name="sample"></param>
-        public static Dictionary<T, int[]> InverseKeys<T>(Dictionary<T, double>[] sample, double minValue, int preAlloc1 = 1000000, int preAlloc2 = 100)
+        public static Dictionary<T, int[]> InverseKeys<T>(Dictionary<T, double>[] sample, int maxOccurences = Int32.MaxValue, int preAlloc1 = 1000000, int preAlloc2 = 100)
         {
             Dictionary<T, List<int>> invertedIndexes = new Dictionary<T, List<int>>(preAlloc1);
             for (int i = 0; i < sample.Length; i++)
@@ -22,7 +22,6 @@ namespace rossum.Tools
                 foreach (KeyValuePair<T, double> kvp in sparsePoint)
                 {
                     T currentKey = kvp.Key;
-                    if (kvp.Value < minValue) continue;
                     if (invertedIndexes.ContainsKey(currentKey))
                         invertedIndexes[currentKey].Add(i);
                     else
@@ -33,16 +32,26 @@ namespace rossum.Tools
                 }
             }
 
+            T[] keys = invertedIndexes.Keys.ToArray();
+            foreach (T key in keys)
+                if (invertedIndexes[key].Count < 2 || invertedIndexes[key].Count >= maxOccurences)
+                    invertedIndexes.Remove(key);
+
             Dictionary<T, int[]> invertedIndexesArray = new Dictionary<T, int[]>(invertedIndexes.Count); // this dictionnary enjoys a better pre-allocation
-            for (int i = 0; i < invertedIndexes.Count; i++)
-                invertedIndexesArray.Add(invertedIndexes.ElementAt(i).Key, invertedIndexes.ElementAt(i).Value.ToArray());
+
+            keys = invertedIndexes.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                T currentKey = keys[i];
+                invertedIndexesArray.Add(currentKey, invertedIndexes[currentKey].ToArray());
+            }
 
             return invertedIndexesArray;
         }
 
-        public static Dictionary<T, int[]> InverseKeysAndSort<T>(Dictionary<T, double>[] sample, double minValue = 0, int preAlloc1 = 1000000, int preAlloc2 = 100)
+        public static Dictionary<T, int[]> InverseKeysAndSort<T>(Dictionary<T, double>[] sample, int preAlloc1 = 1000000, int preAlloc2 = 100)
         {
-            Dictionary<T, int[]> invertedIndexes = InverseKeys<T>(sample, minValue, preAlloc1, preAlloc2);
+            Dictionary<T, int[]> invertedIndexes = InverseKeys<T>(sample, preAlloc1, preAlloc2);
             for (int i = 0; i < invertedIndexes.Count; i++)
                 Array.Sort(invertedIndexes[invertedIndexes.Keys.ElementAt(i)]);
             return invertedIndexes;

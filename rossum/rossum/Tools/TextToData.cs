@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using rossum.Files;
 
 namespace rossum.Tools
 {
@@ -21,6 +22,20 @@ namespace rossum.Tools
             }
 
             return res;
+        }
+
+        public static string[] ImportIds(string filePath)
+        {
+            List<string> res = new List<string>();
+            int linesRead = 0;
+            foreach (string line in LinesEnumerator.YieldLines(filePath))
+            {
+                linesRead++;
+                if (linesRead == 1) continue;
+                res.Add(line.Split('\t')[0]);
+
+            }
+            return res.ToArray();
         }
     }
 }

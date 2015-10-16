@@ -9,7 +9,7 @@ namespace rossum.Reading
 {
     public static class EncyclopediaReader
     {
-        public static Dictionary<string, double>[] Import(string filePath, IReader reader)
+        public static Dictionary<string, double>[] ImportSparse(string filePath, IReader reader)
         {
             List<Dictionary<string, double>> encyclopedia = new List<Dictionary<string,double>>();
             int linesRead = 0;
@@ -29,7 +29,7 @@ namespace rossum.Reading
             return encyclopedia.ToArray();
         }
 
-        public static string[] ImportLines(string filePath, IReader reader)
+        public static string[] ImportRaw(string filePath, IReader reader)
         {
             List<string> encyclopedia = new List<string>();
             int linesRead = 0;
