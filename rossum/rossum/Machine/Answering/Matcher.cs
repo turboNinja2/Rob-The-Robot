@@ -41,8 +41,8 @@ namespace rossum.Machine.Answering
 
             Console.Write("Started prediction");
 
-            for (int k = 0; k < questions.Length; k++)
-            //Parallel.For(0, questions.Length, k =>
+            //for (int k = 0; k < questions.Length; k++)
+            Parallel.For(0, questions.Length, k =>
             {
                 
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
@@ -60,17 +60,10 @@ namespace rossum.Machine.Answering
                     distancesToEncyclopediaSpace[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 
-            /*
-                if (k == 0)
-                {
-                    Console.WriteLine(String.Join("\n", proposals.Select(c => _reader.Read(c))));
-                }
-                */
-
                 int bestcandidate = Array.FindIndex(distancesToEncyclopediaSpace, d => d == distancesToEncyclopediaSpace.Min());
 
                 results[k] = bestcandidate == 0 ? "A" : bestcandidate == 1 ? "B" : bestcandidate == 2 ? "C" : "D";
-            }//);
+            });
 
             return results;
         }

@@ -1,6 +1,6 @@
 import shutil, glob
 
-outfilename = "_AllArticles.txt"
+outfilename = "Wikipedia.ency"
 
 with open(outfilename, 'wb') as outfile:
     for filename in glob.glob('./articles/*.txt'):

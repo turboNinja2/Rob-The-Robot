@@ -1,5 +1,5 @@
-﻿using rossum.Learning.SparseKernels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using rossum.Learning.SparseKernels;
 
 namespace rossum.Machine.Learning.SparseDistances
 {
