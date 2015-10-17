@@ -108,3 +108,5 @@ rossum/rossum/obj/x86/Debug/rossum.csproj.FileListAbsolute.txt
 *.txt
 answers_rossum.txt
 *.cache
+*.cache
+submission.csv

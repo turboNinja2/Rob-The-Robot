@@ -42,7 +42,7 @@ namespace rossum
 
             }
 
-            IReader reader = new EnglishStemming();
+            IReader reader = new NaiveLowerCase();
 
             //ISparseKernel myKernel = new Linear();
             //ISparseDistance myDist = new KernelDistance(myKernel);
