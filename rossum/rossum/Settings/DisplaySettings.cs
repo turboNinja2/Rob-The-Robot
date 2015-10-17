@@ -2,6 +2,6 @@
 {
     public static class DisplaySettings
     {
-        public static int PrintProgressEveryLine = 100;
+        public static int PrintProgressEveryLine = 250;
     }
 }

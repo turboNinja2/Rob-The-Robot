@@ -67,13 +67,15 @@
     <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\Matcher.cs" />
     <Compile Include="Machine\Learning\KNN.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\ISparseDistance.cs">
+    <Compile Include="Machine\Learning\SparseDistances\PairedJaccardDistance.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\CosineDistance.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\_ISparseDistance.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Machine\Learning\SparseDistances\KernelDistance.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\Kernels\SparseKernels\ISparseKernel.cs">
+    <Compile Include="Machine\Learning\Kernels\SparseKernels\_ISparseKernel.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Machine\Learning\Kernels\SparseKernels\Linear.cs">
@@ -86,6 +88,7 @@
     <Compile Include="Machine\Learning\SparseDistances\JaccardDistance.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
+    <Compile Include="Machine\Reading\Readers\NaiveLowerCasePunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\EnglishStemmingPunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />
     <Compile Include="Machine\Reading\Stemmers\Among.cs" />
