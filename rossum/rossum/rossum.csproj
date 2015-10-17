@@ -67,7 +67,8 @@
     <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\Matcher.cs" />
     <Compile Include="Machine\Learning\KNN.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\PairedJaccardDistance.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\LevenshteinDistance.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\PairedJaccard.cs" />
     <Compile Include="Machine\Learning\SparseDistances\CosineDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\_ISparseDistance.cs">
       <SubType>Code</SubType>
@@ -85,7 +86,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Machine\Learning\Kernels\StringKernels\IStringKernel.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\JaccardDistance.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\PairedJaccardDistance.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
     <Compile Include="Machine\Reading\Readers\NaiveLowerCasePunctuation.cs" />

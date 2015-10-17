@@ -9,14 +9,10 @@ namespace rossum.Learning.SparseKernels
             double dot = 0;
 
             foreach (KeyValuePair<string, double> kvp2 in sp2)
-            {
                 if (sp1.ContainsKey(kvp2.Key))
-                {
                     dot += kvp2.Value * sp1[kvp2.Key];
-                }
-            }
-            return dot;
 
+            return dot;
         }
     }
 }

@@ -47,7 +47,7 @@ namespace rossum
             //ISparseKernel myKernel = new Linear();
             //ISparseDistance myDist = new KernelDistance(myKernel);
 
-            ISparseDistance myDist = new PairedJaccardDistance();
+            ISparseDistance myDist = new LevenshteinDistance();
 
             Matcher robot = new Matcher(myDist, reader);
             string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train);
