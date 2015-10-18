@@ -67,10 +67,10 @@
     <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\Matcher.cs" />
     <Compile Include="Machine\Learning\KNN.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\CosineDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\NormalizedLevenshteinDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\LevenshteinDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\PairedJaccard.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\CosineDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\_ISparseDistance.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -104,6 +104,7 @@
     <Compile Include="Machine\Reading\Readers\EnglishStemming.cs" />
     <Compile Include="Machine\Reading\QuestionnaireReader.cs" />
     <Compile Include="Settings\DisplaySettings.cs" />
+    <Compile Include="Tools\IntToAnswers.cs" />
     <Compile Include="Tools\SmartIndexes.cs" />
     <Compile Include="Tools\TextToData.cs" />
   </ItemGroup>

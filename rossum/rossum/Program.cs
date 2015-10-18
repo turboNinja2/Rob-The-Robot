@@ -12,10 +12,10 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
+            string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\validation_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
-                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\defaulta_Answers.txt";
-            bool train = true;
+                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\jaccard.txt";
+            bool train = false;
 
 
             for (int i = 0; i < args.Length; i++)
@@ -39,12 +39,10 @@ namespace rossum
                 {
                     outFilePath = args[i + 1];
                 }
-
             }
 
-            IReader reader = new EnglishStemmingPunctuation();
-
-            ISparseDistance myDist = new NormalizedLevenshteinDistance();
+            IReader reader = new NaiveLowerCasePunctuation();
+            ISparseDistance myDist = new JaccardDistance();
 
             Matcher robot = new Matcher(myDist, reader);
             string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train);
@@ -63,7 +61,6 @@ namespace rossum
                 string[] ids = TextToData.ImportColumn(questionFilePath, 0);
                 SubmissionWriter.Write(answers, ids, outFilePath);
             }
-
             Console.ReadKey();
         }
     }

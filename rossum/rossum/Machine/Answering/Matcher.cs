@@ -41,10 +41,9 @@ namespace rossum.Machine.Answering
 
             Console.Write("Started prediction");
 
-            //for (int k = 0; k < questions.Length; k++)
             Parallel.For(0, questions.Length, k =>
             {
-                
+
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
                 {
                     Console.Write('.');
@@ -52,17 +51,24 @@ namespace rossum.Machine.Answering
 
                 RawQuestion question = questions[k];
                 string[] proposals = question.GetCombinations();
-                double[] distancesToEncyclopediaSpace = new double[proposals.Length];
+                double[] distancesToEncyclopedia = new double[proposals.Length];
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
                     Dictionary<string, double> readQuestion = TextToData.Counts(proposals[i]);
-                    distancesToEncyclopediaSpace[i] = learner.DistanceToClosestPoint(readQuestion);
+                    distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 
-                int bestcandidate = Array.FindIndex(distancesToEncyclopediaSpace, d => d == distancesToEncyclopediaSpace.Min());
+                double minDistance = distancesToEncyclopedia.Min();
 
-                results[k] = bestcandidate == 0 ? "A" : bestcandidate == 1 ? "B" : bestcandidate == 2 ? "C" : "D";
+                int bestcandidate = Array.FindIndex(distancesToEncyclopedia, d => d == minDistance);
+                int[] bestcandidates = distancesToEncyclopedia.Select((b, i) => b == minDistance ? i : -1).Where(i => i != -1).ToArray();
+
+                results[k] = IntToAnswers.ToAnswer(bestcandidate);
+
+                results[k] = String.Join(" ", bestcandidates.Select(c => IntToAnswers.ToAnswer(c)));
+
+
             });
 
             return results;
