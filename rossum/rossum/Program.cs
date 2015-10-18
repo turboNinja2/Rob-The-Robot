@@ -5,6 +5,7 @@ using rossum.Machine.Learning.SparseDistances;
 using rossum.Reading.Readers;
 using rossum.Tools;
 using rossum.Learning.SparseKernels;
+using rossum.Machine.Reading.Tokenizers;
 
 namespace rossum
 {
@@ -16,7 +17,6 @@ namespace rossum
                 encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
                 outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\levenshtein.txt";
             bool train = true;
-
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -41,13 +41,14 @@ namespace rossum
                 }
             }
 
-            IReader reader = new EnglishStemmingPunctuation();
-            ISparseDistance myDist = new NormalizedLevenshteinDistance();
+            IReader myReader = new EnglishStemmingPunctuation();
+            ISparseDistance myDist = new NormalizedLevenshtein();
+            ITokenizer myTok = new Counts();
 
             bool multipleAnswers = false;
 
-            Matcher robot = new Matcher(myDist, reader);
-            string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train,multipleAnswers);
+            SparseMatcher robot = new SparseMatcher(myDist, myReader, myTok);
+            string[] answers = robot.SparseAnswer(questionFilePath, encyclopediaFilePath, train,multipleAnswers);
 
             if (train)
             {
@@ -56,7 +57,7 @@ namespace rossum
                 for (int i = 0; i < actualAnswers.Length; i++)
                     if (actualAnswers[i] == answers[i])
                         good++;
-                Console.WriteLine("Score=" + good * 1f / answers.Length);
+                Console.WriteLine("\nScore=" + good * 1f / answers.Length);
             }
             else
             {

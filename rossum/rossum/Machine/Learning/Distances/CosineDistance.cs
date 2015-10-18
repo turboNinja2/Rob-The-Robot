@@ -6,7 +6,7 @@ namespace rossum.Machine.Learning.SparseDistances
 {
     class CosineDistance : ISparseDistance
     {
-        public double Value(Dictionary<string, double> p1, Dictionary<string, double> p2)
+        public double Value(IDictionary<string, double> p1, IDictionary<string, double> p2)
         {
             int intersectionSize = 0;
 

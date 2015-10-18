@@ -4,39 +4,22 @@ using rossum.Files;
 using rossum.Reading.Readers;
 using rossum.Settings;
 using rossum.Tools;
+using rossum.Machine.Reading.Tokenizers;
+using rossum.Tools.OrderedDictionary;
+using rossum.Machine.Reading;
 
 namespace rossum.Reading
 {
     public static class EncyclopediaReader
     {
-        public static Dictionary<string, double>[] ImportSparse(string filePath, IReader reader)
+        public static OrderedDictionary<string, double>[] ImportSparse(string filePath, IReader reader, ITokenizer tokenizer)
         {
-            List<Dictionary<string, double>> encyclopedia = new List<Dictionary<string,double>>();
+            List<OrderedDictionary<string, double>> encyclopedia = new List<OrderedDictionary<string, double>>();
             int linesRead = 0;
 
             foreach (string line in LinesEnumerator.YieldLines(filePath))
             {
-                Dictionary<string, double> res = TextToData.Counts(reader.Read(line));
-
-                encyclopedia.Add(res);
-                linesRead++;
-
-                if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
-                {
-                    Console.Write('.');
-                }
-            }
-            return encyclopedia.ToArray();
-        }
-
-        public static string[] ImportRaw(string filePath, IReader reader)
-        {
-            List<string> encyclopedia = new List<string>();
-            int linesRead = 0;
-
-            foreach (string line in LinesEnumerator.YieldLines(filePath))
-            {
-                string res = reader.Read(line);
+                OrderedDictionary<string, double> res = tokenizer.Tokenize(reader.Read(line));
 
                 encyclopedia.Add(res);
                 linesRead++;

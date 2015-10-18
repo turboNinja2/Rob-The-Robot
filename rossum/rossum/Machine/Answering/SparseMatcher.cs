@@ -9,24 +9,28 @@ using rossum.Reading;
 using rossum.Reading.Readers;
 using rossum.Settings;
 using rossum.Tools;
+using rossum.Machine.Reading.Tokenizers;
+using rossum.Tools.OrderedDictionary;
 
 namespace rossum.Machine.Answering
 {
-    public class Matcher
+    public class SparseMatcher
     {
         private ISparseDistance _distance;
         private IReader _reader;
+        private ITokenizer _tokenizer;
 
-        public Matcher(ISparseDistance distance, IReader reader)
+        public SparseMatcher(ISparseDistance distance, IReader reader, ITokenizer tokenizer)
         {
             _distance = distance;
             _reader = reader;
+            _tokenizer = tokenizer;
         }
 
-        public string[] Answer(string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
+        public string[] SparseAnswer(string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
         {
             Console.Write("Import encyclopedia");
-            Dictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader);
+            OrderedDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
 
             Console.Write("\n");
 
@@ -55,7 +59,7 @@ namespace rossum.Machine.Answering
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
-                    Dictionary<string, double> readQuestion = TextToData.Counts(proposals[i]);
+                    OrderedDictionary<string, double> readQuestion = _tokenizer.Tokenize(proposals[i]);
                     distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 

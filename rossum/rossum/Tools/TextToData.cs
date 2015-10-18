@@ -8,19 +8,23 @@ namespace rossum.Tools
         public static Dictionary<string, double> Counts(string line)
         {
             Dictionary<string, double> res = new Dictionary<string, double>();
+            foreach (string elt in line.Split(' '))
+                if (res.ContainsKey(elt))
+                    res[elt]++;
+                else
+                    res.Add(elt, 1);
+            return res;
+        }
 
+        public static Dictionary<string, double> Order(string line)
+        {
+            Dictionary<string, double> res = new Dictionary<string, double>();
+            int index = 0;
             foreach (string elt in line.Split(' '))
             {
-                if (res.ContainsKey(elt))
-                {
-                    res[elt]++;
-                }
-                else
-                {
-                    res.Add(elt, 1);
-                }
+                res.Add(elt, index);
+                index++;
             }
-
             return res;
         }
 
@@ -33,7 +37,6 @@ namespace rossum.Tools
                 linesRead++;
                 if (linesRead == 1) continue;
                 res.Add(line.Split('\t')[colIndex]);
-
             }
             return res.ToArray();
         }

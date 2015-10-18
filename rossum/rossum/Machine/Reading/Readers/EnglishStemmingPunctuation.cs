@@ -13,6 +13,7 @@ namespace rossum.Reading.Readers
             line = line.Replace(".", "");
             line = line.Replace("_", "");
             line = line.Replace(",", "");
+            line = line.Replace("\"", "");
 
             line = String.Join(" ", line.Split(' ').Select(c => englishStemmer.Stem(c)));
             return line;

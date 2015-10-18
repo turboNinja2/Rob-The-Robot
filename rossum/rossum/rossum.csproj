@@ -65,38 +65,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Files\SubmissionWriter.cs" />
-    <Compile Include="Machine\Answering\Matcher.cs" />
-    <Compile Include="Machine\Learning\KNN.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\CosineDistance.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\NormalizedLevenshteinDistance.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\LevenshteinDistance.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\PairedJaccard.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\_ISparseDistance.cs">
+    <Compile Include="Machine\Answering\SparseMatcher.cs" />
+    <Compile Include="Machine\Learning\SparseKNN.cs" />
+    <Compile Include="Machine\Learning\Distances\CosineDistance.cs" />
+    <Compile Include="Machine\Learning\Distances\NormalizedLevenshtein.cs" />
+    <Compile Include="Machine\Learning\Distances\NormalizedJaccard.cs" />
+    <Compile Include="Machine\Learning\Distances\_ISparseDistance.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\SparseDistances\KernelDistance.cs">
+    <Compile Include="Machine\Learning\Distances\KernelDistance.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\Kernels\SparseKernels\_ISparseKernel.cs">
+    <Compile Include="Machine\Learning\Kernels\Linear.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\Kernels\SparseKernels\Linear.cs">
+    <Compile Include="Machine\Learning\Kernels\Poly.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\Kernels\SparseKernels\Poly.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Machine\Learning\Kernels\StringKernels\IStringKernel.cs" />
-    <Compile Include="Machine\Learning\SparseDistances\PairedJaccardDistance.cs" />
+    <Compile Include="Machine\Learning\Kernels\_ISparseKernel.cs" />
+    <Compile Include="Machine\Reading\OrderedDictionaryDictionary.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
     <Compile Include="Machine\Reading\Readers\NaiveLowerCasePunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\EnglishStemmingPunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />
-    <Compile Include="Machine\Reading\Stemmers\Among.cs" />
-    <Compile Include="Machine\Reading\Stemmers\EnglishStemmer.cs" />
-    <Compile Include="Machine\Reading\Stemmers\IStemmer.cs" />
-    <Compile Include="Machine\Reading\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\Readers\Stemmers\Among.cs" />
+    <Compile Include="Machine\Reading\Readers\Stemmers\EnglishStemmer.cs" />
+    <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
+    <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\Tokenizers\Counts.cs" />
+    <Compile Include="Machine\Reading\Tokenizers\_ITokenizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Machine\Reading\EncyclopediaReader.cs" />
@@ -105,6 +103,8 @@
     <Compile Include="Machine\Reading\QuestionnaireReader.cs" />
     <Compile Include="Settings\DisplaySettings.cs" />
     <Compile Include="Tools\IntToAnswers.cs" />
+    <Compile Include="Tools\OrderedDictionary\IOrderedDictionary.cs" />
+    <Compile Include="Tools\OrderedDictionary\OrderedDictionary.cs" />
     <Compile Include="Tools\SmartIndexes.cs" />
     <Compile Include="Tools\TextToData.cs" />
   </ItemGroup>

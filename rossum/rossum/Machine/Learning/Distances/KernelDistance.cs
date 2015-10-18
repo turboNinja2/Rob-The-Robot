@@ -12,9 +12,9 @@ namespace rossum.Machine.Learning.SparseDistances
             _kernel = kernel;
         }
 
-        public double Value(Dictionary<string, double> p1, Dictionary<string, double> p2)
+        public double Value(IDictionary<string, double> p1, IDictionary<string, double> p2)
         {
-            return _kernel.Value(p1, p1) + _kernel.Value(p2, p2) - 2 * _kernel.Value(p1, p2);
+            return 0;// _kernel.Value(p1, p1) + _kernel.Value(p2, p2) - 2 * _kernel.Value(p1, p2);
         }
     }
 }

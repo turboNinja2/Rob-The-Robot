@@ -13,12 +13,12 @@ namespace rossum.Tools
         /// Returns an inverted dictionnary of the keys.
         /// </summary>
         /// <param name="sample"></param>
-        public static Dictionary<T, int[]> InverseKeys<T>(Dictionary<T, double>[] sample, int maxOccurences = Int32.MaxValue, int preAlloc1 = 1000000, int preAlloc2 = 100)
+        public static Dictionary<T, int[]> InverseKeys<T>(IDictionary<T, double>[] sample, int maxOccurences = Int32.MaxValue, int preAlloc1 = 1000000, int preAlloc2 = 100)
         {
             Dictionary<T, List<int>> invertedIndexes = new Dictionary<T, List<int>>(preAlloc1);
             for (int i = 0; i < sample.Length; i++)
             {
-                Dictionary<T, double> sparsePoint = sample[i];
+                IDictionary<T, double> sparsePoint = sample[i];
                 foreach (KeyValuePair<T, double> kvp in sparsePoint)
                 {
                     T currentKey = kvp.Key;
