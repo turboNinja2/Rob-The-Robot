@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Iveonik.Stemmers;
+using rossum.Machine.Reading;
 
 namespace rossum.Reading.Readers
 {
@@ -10,11 +11,7 @@ namespace rossum.Reading.Readers
 
         public string Read(string line)
         {
-            line = line.Replace(".", "");
-            line = line.Replace("_", "");
-            line = line.Replace(",", "");
-            line = line.Replace("\"", "");
-
+            line = StringHelper.RemovePunctuation(line);
             line = String.Join(" ", line.Split(' ').Select(c => englishStemmer.Stem(c)));
             return line;
         }

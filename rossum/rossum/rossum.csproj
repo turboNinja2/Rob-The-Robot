@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\SparseMatcher.cs" />
+    <Compile Include="Machine\Learning\Distances\SortedLevenshtein.cs" />
     <Compile Include="Machine\Learning\SparseKNN.cs" />
     <Compile Include="Machine\Learning\Distances\CosineDistance.cs" />
     <Compile Include="Machine\Learning\Distances\NormalizedLevenshtein.cs" />
@@ -93,11 +94,14 @@
     <Compile Include="Machine\Reading\Readers\Stemmers\EnglishStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\StringHelper.cs" />
+    <Compile Include="Machine\Reading\TFIDF.cs" />
     <Compile Include="Machine\Reading\Tokenizers\Counts.cs" />
+    <Compile Include="Machine\Reading\Tokenizers\OrderedCounts.cs" />
     <Compile Include="Machine\Reading\Tokenizers\_ITokenizer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Machine\Reading\EncyclopediaReader.cs" />
+    <Compile Include="Machine\Reading\Tokenizers\EncyclopediaReader.cs" />
     <Compile Include="Machine\Reading\Readers\IReader.cs" />
     <Compile Include="Machine\Reading\Readers\EnglishStemming.cs" />
     <Compile Include="Machine\Reading\QuestionnaireReader.cs" />

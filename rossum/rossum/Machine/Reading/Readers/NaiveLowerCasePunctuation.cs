@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using rossum.Machine.Reading;
 
 namespace rossum.Reading.Readers
 {
-    public class NaiveLowerCasePunctuation : IReader
+    public class LowerCasePunctuation : IReader
     {
         public string Read(string line)
         {
-            line = line.Replace(".", "");
-            line = line.Replace("_", "");
-            line = line.Replace(",", "");
-
+            line = StringHelper.RemovePunctuation(line);
             line = line.ToLower();
             return line;
         }

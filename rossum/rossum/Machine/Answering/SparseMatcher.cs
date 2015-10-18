@@ -5,12 +5,11 @@ using System.Threading.Tasks;
 using rossum.Answering;
 using rossum.Machine.Learning;
 using rossum.Machine.Learning.SparseDistances;
+using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading;
 using rossum.Reading.Readers;
 using rossum.Settings;
 using rossum.Tools;
-using rossum.Machine.Reading.Tokenizers;
-using rossum.Tools.OrderedDictionary;
 
 namespace rossum.Machine.Answering
 {
@@ -29,8 +28,8 @@ namespace rossum.Machine.Answering
 
         public string[] SparseAnswer(string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
         {
-            Console.Write("Import encyclopedia");
-            OrderedDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
+            Console.Write("\nImport encyclopedia");
+            IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
 
             Console.Write("\n");
 
@@ -46,6 +45,7 @@ namespace rossum.Machine.Answering
             Console.Write("Started prediction");
 
             Parallel.For(0, questions.Length, k =>
+            //for(int k = 0; k < questions.Length; k++)
             {
 
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
@@ -59,7 +59,7 @@ namespace rossum.Machine.Answering
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
-                    OrderedDictionary<string, double> readQuestion = _tokenizer.Tokenize(proposals[i]);
+                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(proposals[i]);
                     distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 

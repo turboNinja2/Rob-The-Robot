@@ -2,10 +2,9 @@
 using rossum.Files;
 using rossum.Machine.Answering;
 using rossum.Machine.Learning.SparseDistances;
+using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
-using rossum.Learning.SparseKernels;
-using rossum.Machine.Reading.Tokenizers;
 
 namespace rossum
 {
@@ -13,9 +12,11 @@ namespace rossum
     {
         static void Main(string[] args)
         {
+            Console.ForegroundColor = ConsoleColor.Green;
+
             string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
-                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\levenshtein.txt";
+                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\jaccard_more_punctuation2.txt";
             bool train = true;
 
             for (int i = 0; i < args.Length; i++)
@@ -26,6 +27,7 @@ namespace rossum
                     questionFilePath = args[i + 1];
                     train = true;
                 }
+
                 if (args[i] == "-encyclopedia")
                     encyclopediaFilePath = args[i + 1];
 
@@ -36,19 +38,17 @@ namespace rossum
                 }
 
                 if (args[i] == "-out")
-                {
                     outFilePath = args[i + 1];
-                }
             }
 
             IReader myReader = new EnglishStemmingPunctuation();
-            ISparseDistance myDist = new NormalizedLevenshtein();
-            ITokenizer myTok = new Counts();
+            ITokenizer myTok = new TFIDF(encyclopediaFilePath, questionFilePath, myReader);
+            ISparseDistance myDist = new CosineDistance();
 
             bool multipleAnswers = false;
 
             SparseMatcher robot = new SparseMatcher(myDist, myReader, myTok);
-            string[] answers = robot.SparseAnswer(questionFilePath, encyclopediaFilePath, train,multipleAnswers);
+            string[] answers = robot.SparseAnswer(questionFilePath, encyclopediaFilePath, train, multipleAnswers);
 
             if (train)
             {

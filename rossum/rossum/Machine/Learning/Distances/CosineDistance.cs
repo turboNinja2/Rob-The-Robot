@@ -8,15 +8,15 @@ namespace rossum.Machine.Learning.SparseDistances
     {
         public double Value(IDictionary<string, double> p1, IDictionary<string, double> p2)
         {
-            int intersectionSize = 0;
+            double dot = 0;
 
             string[] keys = p2.Keys.ToArray();
 
             foreach (string key in keys)
                 if (p1.ContainsKey(key))
-                    intersectionSize++;
+                    dot += p1[key] * p2[key];
 
-            return -intersectionSize * 1f / Math.Sqrt(p1.Count * p2.Count);
+            return - dot / Math.Sqrt(p1.Select(c => c.Value).Sum()) * Math.Sqrt(p2.Select(c => c.Value).Sum());
         }
     }
 }

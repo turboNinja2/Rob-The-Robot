@@ -12,14 +12,14 @@ namespace rossum.Reading
 {
     public static class EncyclopediaReader
     {
-        public static OrderedDictionary<string, double>[] ImportSparse(string filePath, IReader reader, ITokenizer tokenizer)
+        public static IDictionary<string, double>[] ImportSparse(string filePath, IReader reader, ITokenizer tokenizer)
         {
-            List<OrderedDictionary<string, double>> encyclopedia = new List<OrderedDictionary<string, double>>();
+            List<IDictionary<string, double>> encyclopedia = new List<IDictionary<string, double>>();
             int linesRead = 0;
 
             foreach (string line in LinesEnumerator.YieldLines(filePath))
             {
-                OrderedDictionary<string, double> res = tokenizer.Tokenize(reader.Read(line));
+                IDictionary<string, double> res = tokenizer.Tokenize(reader.Read(line));
 
                 encyclopedia.Add(res);
                 linesRead++;

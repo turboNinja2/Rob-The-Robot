@@ -3,11 +3,11 @@ using rossum.Tools.OrderedDictionary;
 
 namespace rossum.Machine.Reading.Tokenizers
 {
-    public class Counts : ITokenizer
+    public class OrderedCounts : ITokenizer
     {
         public IDictionary<string, double> Tokenize(string line)
         {
-            Dictionary<string, double> res = new Dictionary<string, double>();
+            OrderedDictionary<string, double> res = new OrderedDictionary<string, double>();
             foreach (string elt in line.Split(' '))
                 if (res.ContainsKey(elt))
                     res[elt]++;

@@ -5,6 +5,6 @@ namespace rossum.Machine.Reading.Tokenizers
 {
     public interface ITokenizer
     {
-        OrderedDictionary<string, double> Tokenize(string line);
+        IDictionary<string, double> Tokenize(string line);
     }
 }
