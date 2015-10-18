@@ -23,7 +23,7 @@ namespace rossum.Machine.Answering
             _reader = reader;
         }
 
-        public string[] Answer(string questionnaireFilePath, string encyclopediaFilePath, bool train)
+        public string[] Answer(string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
         {
             Console.Write("Import encyclopedia");
             Dictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader);
@@ -61,13 +61,16 @@ namespace rossum.Machine.Answering
 
                 double minDistance = distancesToEncyclopedia.Min();
 
-                int bestcandidate = Array.FindIndex(distancesToEncyclopedia, d => d == minDistance);
-                int[] bestcandidates = distancesToEncyclopedia.Select((b, i) => b == minDistance ? i : -1).Where(i => i != -1).ToArray();
-
-                results[k] = IntToAnswers.ToAnswer(bestcandidate);
-
-                results[k] = String.Join(" ", bestcandidates.Select(c => IntToAnswers.ToAnswer(c)));
-
+                if (multipleAnswers)
+                {
+                    int[] bestcandidates = distancesToEncyclopedia.Select((b, i) => b == minDistance ? i : -1).Where(i => i != -1).ToArray();
+                    results[k] = String.Join(" ", bestcandidates.Select(c => IntToAnswers.ToAnswer(c)));
+                }
+                else
+                {
+                    int bestcandidate = Array.FindIndex(distancesToEncyclopedia, d => d == minDistance);
+                    results[k] = IntToAnswers.ToAnswer(bestcandidate);
+                }
 
             });
 
