@@ -42,12 +42,9 @@ namespace rossum
 
             }
 
-            IReader reader = new NaiveLowerCasePunctuation();
+            IReader reader = new EnglishStemming();
 
-            //ISparseKernel myKernel = new Linear();
-            //ISparseDistance myDist = new KernelDistance(myKernel);
-
-            ISparseDistance myDist = new LevenshteinDistance();
+            ISparseDistance myDist = new NormalizedLevenshteinDistance();
 
             Matcher robot = new Matcher(myDist, reader);
             string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train);

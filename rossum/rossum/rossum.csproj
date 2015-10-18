@@ -67,6 +67,7 @@
     <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\Matcher.cs" />
     <Compile Include="Machine\Learning\KNN.cs" />
+    <Compile Include="Machine\Learning\SparseDistances\NormalizedLevenshteinDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\LevenshteinDistance.cs" />
     <Compile Include="Machine\Learning\SparseDistances\PairedJaccard.cs" />
     <Compile Include="Machine\Learning\SparseDistances\CosineDistance.cs" />
