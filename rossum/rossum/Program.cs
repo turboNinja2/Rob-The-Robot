@@ -12,9 +12,9 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\CK12.ency",
-                outFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\_Answers.txt";
+            string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
+                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\defaulta_Answers.txt";
             bool train = true;
 
 
@@ -42,7 +42,7 @@ namespace rossum
 
             }
 
-            IReader reader = new EnglishStemming();
+            IReader reader = new EnglishStemmingPunctuation();
 
             ISparseDistance myDist = new NormalizedLevenshteinDistance();
 
@@ -63,6 +63,8 @@ namespace rossum
                 string[] ids = TextToData.ImportColumn(questionFilePath, 0);
                 SubmissionWriter.Write(answers, ids, outFilePath);
             }
+
+            Console.ReadKey();
         }
     }
 }
