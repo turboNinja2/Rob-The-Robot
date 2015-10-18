@@ -44,7 +44,6 @@ namespace rossum
             IReader myReader = new EnglishStemmingPunctuation();
             ITokenizer myTok = new TFIDF(encyclopediaFilePath, questionFilePath, myReader);
             ISparseDistance myDist = new CosineDistance();
-
             bool multipleAnswers = false;
 
             SparseMatcher robot = new SparseMatcher(myDist, myReader, myTok);
