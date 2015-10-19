@@ -25,7 +25,9 @@ namespace rossum
                 for (int i = 0; i < actualAnswers.Length; i++)
                     if (actualAnswers[i] == answers[i])
                         good++;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nScore=" + good * 1f / answers.Length);
+                Console.ResetColor();
             }
             else
             {
