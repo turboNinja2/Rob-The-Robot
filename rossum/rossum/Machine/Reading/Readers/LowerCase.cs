@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace rossum.Reading.Readers
 {
-    public class NaiveLowerCase : IReader
+    public class LowerCase : IReader
     {
         public string Read(string line)
         {

@@ -12,12 +12,14 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.ForegroundColor = ConsoleColor.Green;
+            //Console.ForegroundColor = ConsoleColor.Green;
 
-            string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
-                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\jaccard_more_punctuation2.txt";
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\CK12.ency",
+                outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\";
             bool train = true;
+            bool multipleAnswers = false;
+
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -38,31 +40,21 @@ namespace rossum
                 }
 
                 if (args[i] == "-out")
-                    outFilePath = args[i + 1];
+                    outFolder = args[i + 1];
             }
 
-            IReader myReader = new EnglishStemmingPunctuation();
-            ITokenizer myTok = new BigramTFIDF(encyclopediaFilePath, questionFilePath, myReader);
-            ISparseDistance myDist = new CosineDistance();
-            bool multipleAnswers = false;
+            IReader reader = new StemmingPunctuationStop();
+            ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            ISparseDistance dist = new InformationDiffusion();
 
-            SparseMatcher robot = new SparseMatcher(myDist, myReader, myTok);
-            string[] answers = robot.SparseAnswer(questionFilePath, encyclopediaFilePath, train, multipleAnswers);
+            Pipeline.Run(reader, tok, dist, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
-            if (train)
-            {
-                string[] actualAnswers = TextToData.ImportColumn(questionFilePath, 2);
-                int good = 0;
-                for (int i = 0; i < actualAnswers.Length; i++)
-                    if (actualAnswers[i] == answers[i])
-                        good++;
-                Console.WriteLine("\nScore=" + good * 1f / answers.Length);
-            }
-            else
-            {
-                string[] ids = TextToData.ImportColumn(questionFilePath, 0);
-                SubmissionWriter.Write(answers, ids, outFilePath);
-            }
+            reader = new LowerCasePunctuation();
+            tok = new Counts();
+            dist = new NormalizedJaccard();
+
+            Pipeline.Run(reader, tok, dist, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
             Console.ReadKey();
         }
     }

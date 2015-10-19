@@ -36,7 +36,7 @@ namespace rossum.Machine.Reading.Tokenizers
 
             foreach (string line in LinesEnumerator.YieldLines(filePath2))
             {
-                List<string> res = reader.Read(line).Split(' ','\t').ToList();
+                List<string> res = reader.Read(line).Split(' ', '\t').ToList();
 
                 foreach (string element in res.Distinct())
                 {
@@ -64,22 +64,17 @@ namespace rossum.Machine.Reading.Tokenizers
         {
             Dictionary<string, double> res = new Dictionary<string, double>();
             string[] splittedLine = line.Split(' ');
-            foreach (string elt in splittedLine)
-                if (res.ContainsKey(elt))
-                    res[elt] += _idf[elt];
-                else
-                    res.Add(elt, _idf[elt]);
 
             for (int i = 1; i < splittedLine.Length; i++)
             {
                 string elt = splittedLine[i];
-                string prevElt = splittedLine[i-1];
+                string prevElt = splittedLine[i - 1];
                 if (res.ContainsKey(prevElt + elt))
                     res[prevElt + elt] += _idf[elt] * _idf[prevElt];
                 else
                     res.Add(prevElt + elt, _idf[elt] * _idf[prevElt]);
             }
-            
+
             return res;
         }
     }

@@ -31,18 +31,16 @@ namespace rossum.Machine.Answering
             Console.Write("\nImport encyclopedia");
             IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
 
-            Console.Write("\n");
-
-            Console.Write("Import questions");
+            Console.Write("\nImport questions");
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, _reader, train);
 
-            Console.Write("\nTrain KNN\n");
+            Console.Write("\nTrain KNN");
             SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, 1, 200);
             learner.Train(encyclopedia);
 
             string[] results = new string[questions.Length];
 
-            Console.Write("Started prediction");
+            Console.Write("\nStarted prediction");
 
             Parallel.For(0, questions.Length, k =>
             //for(int k = 0; k < questions.Length; k++)

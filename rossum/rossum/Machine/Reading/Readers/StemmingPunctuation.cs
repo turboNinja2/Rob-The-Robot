@@ -5,7 +5,7 @@ using rossum.Machine.Reading;
 
 namespace rossum.Reading.Readers
 {
-    public class EnglishStemmingPunctuation : IReader
+    public class StemmingPunctuation : IReader
     {
         IStemmer englishStemmer = new EnglishStemmer();
 

@@ -17,7 +17,7 @@ namespace rossum.Files
             using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (StreamReader sr = new StreamReader(fs))
                 while ((line = sr.ReadLine()) != null)
-                    yield return line;
+                    yield return line; 
         }
     }
 }

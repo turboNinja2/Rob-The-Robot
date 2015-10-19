@@ -66,6 +66,8 @@
   <ItemGroup>
     <Compile Include="Files\SubmissionWriter.cs" />
     <Compile Include="Machine\Answering\SparseMatcher.cs" />
+    <Compile Include="Machine\Learning\Distances\InformationDiffusion.cs" />
+    <Compile Include="Machine\Learning\Distances\TanimotoDistance.cs" />
     <Compile Include="Machine\Learning\Distances\SortedLevenshtein.cs" />
     <Compile Include="Machine\Learning\SparseKNN.cs" />
     <Compile Include="Machine\Learning\Distances\CosineDistance.cs" />
@@ -84,27 +86,29 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Machine\Learning\Kernels\_ISparseKernel.cs" />
-    <Compile Include="Machine\Reading\OrderedDictionaryDictionary.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
-    <Compile Include="Machine\Reading\Readers\NaiveLowerCasePunctuation.cs" />
-    <Compile Include="Machine\Reading\Readers\EnglishStemmingPunctuation.cs" />
-    <Compile Include="Machine\Reading\Readers\NaiveLowerCase.cs" />
+    <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop.cs" />
+    <Compile Include="Machine\Reading\Readers\LowerCasePunctuation.cs" />
+    <Compile Include="Machine\Reading\Readers\StemmingPunctuation.cs" />
+    <Compile Include="Machine\Reading\Readers\LowerCase.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\Among.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\EnglishStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\Readers\Stopwords\GoogleStopWords.cs" />
     <Compile Include="Machine\Reading\StringHelper.cs" />
     <Compile Include="Machine\Reading\Tokenizers\BigramTFIDF.cs" />
     <Compile Include="Machine\Reading\Tokenizers\TFIDF.cs" />
     <Compile Include="Machine\Reading\Tokenizers\Counts.cs" />
     <Compile Include="Machine\Reading\Tokenizers\OrderedCounts.cs" />
     <Compile Include="Machine\Reading\Tokenizers\_ITokenizer.cs" />
+    <Compile Include="Pipeline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Machine\Reading\Tokenizers\EncyclopediaReader.cs" />
     <Compile Include="Machine\Reading\Readers\IReader.cs" />
-    <Compile Include="Machine\Reading\Readers\EnglishStemming.cs" />
+    <Compile Include="Machine\Reading\Readers\Stemming.cs" />
     <Compile Include="Machine\Reading\QuestionnaireReader.cs" />
     <Compile Include="Settings\DisplaySettings.cs" />
     <Compile Include="Tools\IntToAnswers.cs" />

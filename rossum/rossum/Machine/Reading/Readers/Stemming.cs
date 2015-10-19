@@ -4,7 +4,7 @@ using Iveonik.Stemmers;
 
 namespace rossum.Reading.Readers
 {
-    public class EnglishStemming : IReader
+    public class Stemming : IReader
     {
         IStemmer englishStemmer = new EnglishStemmer();
 
