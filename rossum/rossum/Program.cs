@@ -42,7 +42,7 @@ namespace rossum
             }
 
             IReader myReader = new EnglishStemmingPunctuation();
-            ITokenizer myTok = new TFIDF(encyclopediaFilePath, questionFilePath, myReader);
+            ITokenizer myTok = new BigramTFIDF(encyclopediaFilePath, questionFilePath, myReader);
             ISparseDistance myDist = new CosineDistance();
             bool multipleAnswers = false;
 

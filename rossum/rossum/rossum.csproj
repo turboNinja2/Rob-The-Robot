@@ -95,7 +95,8 @@
     <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
     <Compile Include="Machine\Reading\StringHelper.cs" />
-    <Compile Include="Machine\Reading\TFIDF.cs" />
+    <Compile Include="Machine\Reading\Tokenizers\BigramTFIDF.cs" />
+    <Compile Include="Machine\Reading\Tokenizers\TFIDF.cs" />
     <Compile Include="Machine\Reading\Tokenizers\Counts.cs" />
     <Compile Include="Machine\Reading\Tokenizers\OrderedCounts.cs" />
     <Compile Include="Machine\Reading\Tokenizers\_ITokenizer.cs" />
