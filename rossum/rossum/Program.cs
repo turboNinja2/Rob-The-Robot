@@ -1,10 +1,7 @@
 ﻿using System;
-using rossum.Files;
-using rossum.Machine.Answering;
 using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
-using rossum.Tools;
 
 namespace rossum
 {
@@ -15,7 +12,7 @@ namespace rossum
             //Console.ForegroundColor = ConsoleColor.Green;
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\CK12.ency",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
                 outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\";
             bool train = true;
             bool multipleAnswers = false;
@@ -46,14 +43,53 @@ namespace rossum
             IReader reader = new StemmingPunctuationStop();
             ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
             ISparseDistance dist = new InformationDiffusion();
+            int nbNeighbours = 1;
 
-            Pipeline.Run(reader, tok, dist, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist,nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new StemmingPunctuationStop();
+            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            dist = new CosineDistance();
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
             reader = new LowerCasePunctuation();
             tok = new Counts();
             dist = new NormalizedJaccard();
 
-            Pipeline.Run(reader, tok, dist, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new StemmingPunctuationStop();
+            tok = new OrderedCounts();
+            dist = new SortedLevenshtein();
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
+
+            reader = new StemmingPunctuationStop();
+            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            dist = new InformationDiffusion();
+            nbNeighbours = 2;
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new StemmingPunctuationStop();
+            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            dist = new CosineDistance();
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new LowerCasePunctuation();
+            tok = new Counts();
+            dist = new NormalizedJaccard();
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new StemmingPunctuationStop();
+            tok = new OrderedCounts();
+            dist = new SortedLevenshtein();
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
             Console.ReadKey();
         }

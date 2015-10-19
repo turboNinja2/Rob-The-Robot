@@ -26,7 +26,7 @@ namespace rossum.Machine.Answering
             _tokenizer = tokenizer;
         }
 
-        public string[] SparseAnswer(string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
+        public string[] SparseAnswer(int nbNeighbours, string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
         {
             Console.Write("\nImport encyclopedia");
             IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
@@ -35,7 +35,7 @@ namespace rossum.Machine.Answering
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, _reader, train);
 
             Console.Write("\nTrain KNN");
-            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, 1, 200);
+            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 300);
             learner.Train(encyclopedia);
 
             string[] results = new string[questions.Length];

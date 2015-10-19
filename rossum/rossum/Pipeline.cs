@@ -10,13 +10,13 @@ namespace rossum
 {
     public static class Pipeline
     {
-        public static void Run(IReader reader, ITokenizer tok, ISparseDistance dist, bool train, bool multipleAnswers, string questionFilePath, string encyclopediaFilePath, string outFolder)
+        public static void Run(IReader reader, ITokenizer tok, ISparseDistance dist, int nbNeighbours, bool train, bool multipleAnswers, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
-            string summary = reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name;
+            string summary = reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString();
             Console.Write("\n" + summary);
 
             SparseMatcher robot = new SparseMatcher(dist, reader, tok);
-            string[] answers = robot.SparseAnswer(questionFilePath, encyclopediaFilePath, train, multipleAnswers);
+            string[] answers = robot.SparseAnswer(nbNeighbours, questionFilePath, encyclopediaFilePath, train, multipleAnswers);
 
             if (train)
             {

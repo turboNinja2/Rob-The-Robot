@@ -45,7 +45,7 @@ namespace rossum.Machine.Learning
 
         public double DistanceToClosestPoint(IDictionary<T, double> pt)
         {
-            return ClosestDistances(_points, pt, _nbNeighbours, _distance)[0];
+            return ClosestDistances(_points, pt, _nbNeighbours, _distance).Sum();
         }
 
         public string Description()
