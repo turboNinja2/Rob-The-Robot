@@ -6,7 +6,7 @@ def import_raw_article(article_name) :
     return ny.content.encode('ascii', 'xmlcharrefreplace')
 
 def remove_empty_lines_and_titles(article):
-    splitted_article = article.split('\n')
+    splitted_article = article.decode('ascii').split('\n')
     splitted_article = filter(lambda x: len(x) > 10, splitted_article)
     splitted_article = filter(lambda x: not x.startswith('==') , splitted_article)
     return '\n'.join(splitted_article)
@@ -93,9 +93,9 @@ articles = [
 
     
 for article in articles:
-    print article # bufferd importation (to save wikipedia)
+    print(article) # bufferd importation (to save wikipedia)
     if os.path.isfile('./articles/'+article+".txt"):
-        print "-present"
+        print("-present")
     else:
-        print "-download"
+        print("-download")
         import_clean_and_write(article)

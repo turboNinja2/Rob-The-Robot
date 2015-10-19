@@ -11,10 +11,10 @@ namespace rossum
         {
             //Console.ForegroundColor = ConsoleColor.Green;
 
-            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\validation_set.tsv",
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
                 outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\";
-            bool train = false;
+            bool train = true;
             bool multipleAnswers = false;
 
 
@@ -45,14 +45,7 @@ namespace rossum
             ISparseDistance dist = new InformationDiffusion();
             int nbNeighbours = 1;
 
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-            nbNeighbours = 6;
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            /*
+            
             Pipeline.Run(reader, tok, dist,nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
             reader = new StemmingPunctuationStop();
@@ -174,7 +167,7 @@ namespace rossum
             dist = new SortedLevenshtein();
 
             //Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-            */
+            
 
             Console.ReadKey();
         }

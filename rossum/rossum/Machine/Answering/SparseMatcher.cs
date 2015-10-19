@@ -35,7 +35,7 @@ namespace rossum.Machine.Answering
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, _reader, train);
 
             Console.Write("\nTrain KNN");
-            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 1000);
+            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 2000);
             learner.Train(encyclopedia);
 
             string[] results = new string[questions.Length];
