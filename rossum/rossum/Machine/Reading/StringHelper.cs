@@ -21,5 +21,16 @@ namespace rossum.Machine.Reading
 
             return line;
         }
+
+        public static string RemovePunctuation2(string line)
+        {
+            line = RemovePunctuation(line);
+
+            line = line.Replace(";", "");
+            line = line.Replace(":", "");
+
+
+            return line;
+        }
     }
 }

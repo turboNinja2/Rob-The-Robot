@@ -3,6 +3,7 @@ using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Files;
+using rossum.Machine.Answering;
 
 namespace rossum
 {
@@ -13,7 +14,7 @@ namespace rossum
             //Console.ForegroundColor = ConsoleColor.Green;
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\validation_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
+                encyclopediaFilePath = @"C:\Users\JUJulien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
                 outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\";
             bool train = false;
             bool proba = false;
@@ -49,6 +50,10 @@ namespace rossum
             }
 
             IReader reader = new StemmingPunctuationStop();
+
+            MarkovMatcher mm = new MarkovMatcher(reader);
+            mm.Learn(encyclopediaFilePath);
+
             ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
             ISparseDistance dist = new InformationDiffusion();
             int nbNeighbours = 1;

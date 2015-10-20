@@ -65,8 +65,6 @@ namespace rossum.Machine.Answering
 
                 if (proba)
                 {
-                    // int[] bestcandidates = distancesToEncyclopedia.Select((b, i) => b == minDistance ? i : -1).Where(i => i != -1).ToArray();
-                    // results[k] = String.Join(" ", bestcandidates.Select(c => IntToAnswers.ToAnswer(c)));
                     double avg = distancesToEncyclopedia.Average();
                     double[] exps = distancesToEncyclopedia.Select(c => Math.Exp(-c / avg)).ToArray();
                     double total = exps.Sum();
