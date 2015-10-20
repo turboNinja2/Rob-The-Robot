@@ -7,16 +7,16 @@ namespace rossum.Machine.Learning
 {
     public class SparseKNN<T>
     {
-        public delegate double Distance(Dictionary<T, double> sp1, Dictionary<T, double> sp2);
+        public delegate double Distance(IDictionary<T, double> sp1, IDictionary<T, double> sp2);
 
         private const int _INVERTED_INDEXES_PREALLOC_ = 100000;
 
         #region Private attributes
 
         private int[] _labels;
-        private Dictionary<T, double>[] _points;
+        private IDictionary<T, double>[] _points;
 
-        private Dictionary<T, int[]> _invertedIndexes = new Dictionary<T, int[]>();
+        private IDictionary<T, int[]> _invertedIndexes = new Dictionary<T, int[]>();
 
         private Distance _distance;
         private int _nbNeighbours;
@@ -37,15 +37,15 @@ namespace rossum.Machine.Learning
         /// </summary>
         /// <param name="labels"></param>
         /// <param name="points"></param>
-        public void Train(Dictionary<T, double>[] points)
+        public void Train(IDictionary<T, double>[] points)
         {
             _points = points;
             _invertedIndexes = SmartIndexes.InverseKeys(points, _maxOccurences);
         }
 
-        public double DistanceToClosestPoint(Dictionary<T, double> pt)
+        public double DistanceToClosestPoint(IDictionary<T, double> pt)
         {
-            return ClosestDistances(_points, pt, _nbNeighbours, _distance)[0];
+            return ClosestDistances(_points, pt, _nbNeighbours, _distance).Sum();
         }
 
         public string Description()
@@ -60,7 +60,7 @@ namespace rossum.Machine.Learning
         /// <param name="newPoint"></param>
         /// <param name="nbNeighbours"></param>
         /// <returns></returns>
-        private double[] ClosestDistances(Dictionary<T, double>[] sample, Dictionary<T, double> newPoint, int nbNeighbours, Distance distance)
+        private double[] ClosestDistances(IDictionary<T, double>[] sample, IDictionary<T, double> newPoint, int nbNeighbours, Distance distance)
         {
             T[] keys = newPoint.Keys.ToArray();
 
@@ -109,7 +109,7 @@ namespace rossum.Machine.Learning
         /// </summary>
         /// <param name="keywords"></param>
         /// <returns></returns>
-        private static int[] PreselectNeighbours(T[] keywords, Dictionary<T, int[]> invertedIndexes)
+        private static int[] PreselectNeighbours(T[] keywords, IDictionary<T, int[]> invertedIndexes)
         {
             List<int> candidateIndexes = new List<int>();
             for (int i = 0; i < keywords.Length; i++)

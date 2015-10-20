@@ -1,10 +1,8 @@
 ﻿using System;
-using rossum.Files;
-using rossum.Machine.Answering;
 using rossum.Machine.Learning.SparseDistances;
+using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
-using rossum.Tools;
-using rossum.Learning.SparseKernels;
+using rossum.Files;
 
 namespace rossum
 {
@@ -12,10 +10,13 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
-                outFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\levenshtein.txt";
-            bool train = true;
+            //Console.ForegroundColor = ConsoleColor.Green;
+
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\validation_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
+                outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\";
+            bool train = false;
+            bool proba = false;
 
 
             for (int i = 0; i < args.Length; i++)
@@ -26,6 +27,7 @@ namespace rossum
                     questionFilePath = args[i + 1];
                     train = true;
                 }
+
                 if (args[i] == "-encyclopedia")
                     encyclopediaFilePath = args[i + 1];
 
@@ -36,34 +38,44 @@ namespace rossum
                 }
 
                 if (args[i] == "-out")
+                    outFolder = args[i + 1];
+
+                if (args[i] == "-merge")
                 {
-                    outFilePath = args[i + 1];
+                    string submissionFolder = args[i + 1];
+                    Submissions.MergeMod(submissionFolder);
+                    return;
                 }
             }
 
-            IReader reader = new EnglishStemmingPunctuation();
-            ISparseDistance myDist = new NormalizedLevenshteinDistance();
+            IReader reader = new StemmingPunctuationStop();
+            ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            ISparseDistance dist = new InformationDiffusion();
+            int nbNeighbours = 1;
 
-            bool multipleAnswers = false;
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-            Matcher robot = new Matcher(myDist, reader);
-            string[] answers = robot.Answer(questionFilePath, encyclopediaFilePath, train,multipleAnswers);
+            reader = new StemmingPunctuationStop();
+            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            dist = new InformationDiffusion();
+            nbNeighbours = 5;
 
-            if (train)
-            {
-                string[] actualAnswers = TextToData.ImportColumn(questionFilePath, 2);
-                int good = 0;
-                for (int i = 0; i < actualAnswers.Length; i++)
-                    if (actualAnswers[i] == answers[i])
-                        good++;
-                Console.WriteLine("Score=" + good * 1f / answers.Length);
-            }
-            else
-            {
-                string[] ids = TextToData.ImportColumn(questionFilePath, 0);
-                SubmissionWriter.Write(answers, ids, outFilePath);
-            }
-            Console.ReadKey();
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new LowerCasePunctuation();
+            tok = new Counts();
+            dist = new NormalizedJaccard();
+            nbNeighbours = 1;
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new LowerCasePunctuation();
+            tok = new Counts();
+            dist = new NormalizedJaccard();
+            nbNeighbours = 5;
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
         }
     }
 }

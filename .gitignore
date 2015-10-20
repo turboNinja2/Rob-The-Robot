@@ -110,3 +110,7 @@ answers_rossum.txt
 *.cache
 *.cache
 submission.csv
+*.ency
+*.ency
+*.ency
+*.csv

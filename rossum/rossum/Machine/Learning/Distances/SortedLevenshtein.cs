@@ -8,15 +8,12 @@ namespace rossum.Machine.Learning.SparseDistances
     /// Tells us the number of edits needed to turn one string into another.
     /// Source: http://www.dotnetperls.com/levenshtein (+ some edits)
     /// </summary>
-    public class NormalizedLevenshteinDistance : ISparseDistance
+    public class Levenshtein : ISparseDistance
     {
-        public double Value(Dictionary<string, double> p1, Dictionary<string, double> p2)
+        public double Value(IDictionary<string, double> p1, IDictionary<string, double> p2)
         {
             string[] s = p1.Keys.ToArray(),
                 t = p2.Keys.ToArray();
-
-            Array.Sort(s);
-            Array.Sort(t);
 
             int n = s.Length;
             int m = t.Length;

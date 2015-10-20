@@ -25,7 +25,5 @@ namespace rossum.Reading.Readers
             }
             return questions.ToArray();
         }
-
-
     }
 }
