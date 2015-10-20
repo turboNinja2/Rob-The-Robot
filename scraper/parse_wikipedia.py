@@ -117,6 +117,7 @@ articles = [
     "Road","Highway",
     
     #literature
+    "Verb","Noun","Grammar","English Grammar",
     "Literature","Novel","Prose","Book","Biography","Autobiography"]
 
     

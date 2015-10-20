@@ -48,15 +48,24 @@ namespace rossum
                 }
             }
 
-            /*
-            string submissionFolder = outFolder + "\\2\\";
-            Submissions.MergeMod(submissionFolder);
-            */
-
             IReader reader = new StemmingPunctuationStop();
             ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
             ISparseDistance dist = new InformationDiffusion();
             int nbNeighbours = 1;
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new StemmingPunctuationStop();
+            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
+            dist = new InformationDiffusion();
+            nbNeighbours = 5;
+
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            reader = new LowerCasePunctuation();
+            tok = new Counts();
+            dist = new NormalizedJaccard();
+            nbNeighbours = 1;
 
             Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
