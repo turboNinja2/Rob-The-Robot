@@ -26,7 +26,7 @@ namespace rossum.Machine.Answering
             _tokenizer = tokenizer;
         }
 
-        public string[] SparseAnswer(int nbNeighbours, string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
+        public string[] SparseAnswer(int nbNeighbours, string questionnaireFilePath, string encyclopediaFilePath, bool train, bool proba)
         {
             Console.Write("\nImport Encyclopedia");
             IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
@@ -35,7 +35,7 @@ namespace rossum.Machine.Answering
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, _reader, train);
 
             Console.Write("\nTrain KNN");
-            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, encyclopedia.Length / 50);
+            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 2000);
             learner.Train(encyclopedia);
 
             string[] results = new string[questions.Length];
@@ -63,10 +63,15 @@ namespace rossum.Machine.Answering
 
                 double minDistance = distancesToEncyclopedia.Min();
 
-                if (multipleAnswers)
+                if (proba)
                 {
-                    int[] bestcandidates = distancesToEncyclopedia.Select((b, i) => b == minDistance ? i : -1).Where(i => i != -1).ToArray();
-                    results[k] = String.Join(" ", bestcandidates.Select(c => IntToAnswers.ToAnswer(c)));
+                    // int[] bestcandidates = distancesToEncyclopedia.Select((b, i) => b == minDistance ? i : -1).Where(i => i != -1).ToArray();
+                    // results[k] = String.Join(" ", bestcandidates.Select(c => IntToAnswers.ToAnswer(c)));
+                    double avg = distancesToEncyclopedia.Average();
+                    double[] exps = distancesToEncyclopedia.Select(c => Math.Exp(-c / avg)).ToArray();
+                    double total = exps.Sum();
+                    double[] softmax = exps.Select(c => c / total).ToArray();
+                    results[k] = String.Join(" ", softmax.Select((c, i) => IntToAnswers.ToAnswer(i) + ":" + c.ToString()));
                 }
                 else
                 {

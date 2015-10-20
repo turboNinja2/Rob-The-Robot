@@ -53,6 +53,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -64,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Files\SubmissionWriter.cs" />
+    <Compile Include="Files\Submissions.cs" />
     <Compile Include="Machine\Answering\SparseMatcher.cs" />
     <Compile Include="Machine\Learning\Distances\InformationDiffusion.cs" />
     <Compile Include="Machine\Learning\Distances\TanimotoDistance.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop.cs" />
+    <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop2.cs" />
     <Compile Include="Machine\Reading\Readers\LowerCasePunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\LowerCase.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Machine\Reading\Readers\Stemmers\EnglishStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\Readers\Stopwords\DefaultStopWords.cs" />
     <Compile Include="Machine\Reading\Readers\Stopwords\GoogleStopWords.cs" />
     <Compile Include="Machine\Reading\StringHelper.cs" />
     <Compile Include="Machine\Reading\Tokenizers\BigramTFIDF.cs" />

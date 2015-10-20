@@ -5,18 +5,21 @@ using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
+using System.IO;
 
 namespace rossum
 {
     public static class Pipeline
     {
-        public static void Run(IReader reader, ITokenizer tok, ISparseDistance dist, int nbNeighbours, bool train, bool multipleAnswers, string questionFilePath, string encyclopediaFilePath, string outFolder)
+        public static void Run(IReader reader, ITokenizer tok, ISparseDistance dist, int nbNeighbours, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
-            string summary = reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString();
+            string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
+
+            string summary = reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString() + "_" + encyclopediaName;
             Console.Write("\n" + summary);
 
             SparseMatcher robot = new SparseMatcher(dist, reader, tok);
-            string[] answers = robot.SparseAnswer(nbNeighbours, questionFilePath, encyclopediaFilePath, train, multipleAnswers);
+            string[] answers = robot.SparseAnswer(nbNeighbours, questionFilePath, encyclopediaFilePath, train, proba);
 
             if (train)
             {
@@ -32,7 +35,7 @@ namespace rossum
             else
             {
                 string[] ids = TextToData.ImportColumn(questionFilePath, 0);
-                SubmissionWriter.Write(answers, ids, outFolder + summary + ".csv");
+                Submissions.Write(answers, ids, outFolder + summary + ".csv");
             }
 
             Console.WriteLine();

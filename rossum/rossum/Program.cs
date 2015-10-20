@@ -2,6 +2,7 @@
 using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
+using rossum.Files;
 
 namespace rossum
 {
@@ -11,11 +12,11 @@ namespace rossum
         {
             //Console.ForegroundColor = ConsoleColor.Green;
 
-            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\validation_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
-                outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\";
-            bool train = true;
-            bool multipleAnswers = false;
+                outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\";
+            bool train = false;
+            bool proba = false;
 
 
             for (int i = 0; i < args.Length; i++)
@@ -38,138 +39,34 @@ namespace rossum
 
                 if (args[i] == "-out")
                     outFolder = args[i + 1];
+
+                if (args[i] == "-merge")
+                {
+                    string submissionFolder = args[i + 1];
+                    Submissions.MergeMod(submissionFolder);
+                    return;
+                }
             }
+
+            /*
+            string submissionFolder = outFolder + "\\2\\";
+            Submissions.MergeMod(submissionFolder);
+            */
 
             IReader reader = new StemmingPunctuationStop();
             ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
             ISparseDistance dist = new InformationDiffusion();
             int nbNeighbours = 1;
 
-            
-            Pipeline.Run(reader, tok, dist,nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new CosineDistance();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
             reader = new LowerCasePunctuation();
             tok = new Counts();
             dist = new NormalizedJaccard();
+            nbNeighbours = 5;
 
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-            reader = new StemmingPunctuationStop();
-            tok = new OrderedCounts();
-            dist = new SortedLevenshtein();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new InformationDiffusion();
-            nbNeighbours = 2;
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new CosineDistance();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new OrderedCounts();
-            dist = new SortedLevenshtein();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new InformationDiffusion();
-            nbNeighbours = 3;
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new CosineDistance();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new OrderedCounts();
-            dist = new SortedLevenshtein();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new InformationDiffusion();
-            nbNeighbours = 6;
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new CosineDistance();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new OrderedCounts();
-            dist = new SortedLevenshtein();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new InformationDiffusion();
-            nbNeighbours = 10;
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new CosineDistance();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new StemmingPunctuationStop();
-            tok = new OrderedCounts();
-            dist = new SortedLevenshtein();
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
-            
-
-            Console.ReadKey();
         }
     }
 }

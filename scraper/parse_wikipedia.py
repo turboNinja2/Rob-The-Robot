@@ -18,7 +18,7 @@ def import_clean_and_write(article_name):
 articles = [
     # geo
     "Geography",
-    "North","South","East","West",
+    "Map","North","South","East","West",
     "Continent","Asia","Africa","North America","South America","Antarcticta","Europe","Australia",
     "New York","London","Paris","Tokyo","Rome",
     "Pacific Ocean","Indian Ocean","Atlantic Ocean",
@@ -37,7 +37,7 @@ articles = [
     
     #Politics
     "Democracy","Monarchy","Dictatorship",
-    "Nation","State (polity)",
+    "Nation",
     
     #Economics
     "Economics","Market (economics)",
@@ -51,12 +51,15 @@ articles = [
     "Newspaper","Pollution","Ecology",
 
     #bio
+    "Biologist","Biology",
     "Male","Female","Gender",
-    "Anatomy","Human body","Human head","Human brain","Nervous system","Smooth muscle tissue","Blood","Blood type",
+    "Anatomy","Human body","Human head","Human brain","Nervous system","Smooth muscle tissue",
+    "Blood","Blood type","Circulatory system",
+    
     "Life","Organism","Cell (biology)","Biology","Bacteria","Microscope","Virus","DNA","Genetic code","Gene",
     "HIV",
     "Medicine","Vaccination",
-    "Cat","Dog","Rabbit","Bird",
+    "Cat","Dog","Rabbit","Bird","Elephant",
     "Fossil","Natural History", "Dinosaur",
     "Continental drift","Earthquake","Epicenter",
     "Magma","Volcano","Lava",
@@ -67,11 +70,11 @@ articles = [
     "Pregnancy","Embryo","Sexual reproduction",
     "Species","Mammal","Insect","Fish","Reptile",
     "Tetrapod","Vertebrate",
-    "Food","Proteins","Vitamins","Minerals",
+    "Food","Proteins","Vitamins","Minerals","Poison",
     
     
     #scientist
-    "Science", "Scientist", "Researcher",
+    "Science", "Scientist", "Researcher","Analysis",
     
     #astrology
     "Universe", "Space", "Planet", "Star", "Comet", "Asteroid", "Galaxy", 
@@ -80,24 +83,38 @@ articles = [
     #Climate
     "Desert", "Ocean", "Forest", "Fire", "Wind", "Iceberg",
     "Rain","Cave", "Geology",
+    "Natural resource","Fossil fuel",
+    "Atmosphere of Earth","Ozone",
+    
+    #mathematics
+    "Mathematics","Calculus","Statistics","Geometry","Square","Circle",
     
     #physics
     "Water","Properties of water",
     "Temperature",
     "Gas","Liquid","Solid",
     "Acid","Base (chemistry)",
+    
     "Light","Prism","Optics","Rainbow",
     "Atom","Molecule","Electron","Subatomic particle","Particle",
-    "Carbon","Hydrogen","Oxygen",
+    
+    "Carbon","Hydrogen","Oxygen","Calcium","Helium","Nitrogen",
+    "Aluminium","Gold","Silver",
+    
+    "Carbon dioxyde","Carbon monixide",
+    
     "Energy",
     "Chemistry",
     "Electricity","Electric Charge","Electric Field","Electric Current","Electromagnetic radiation",
     "Magnetic field","Infrared",
+    "Oil","Petroleum",
 
     #techno
     "Computer","Robot","Car","Television","Screen","Internet","Integrated circuit",
+    "Telephone",
     "Electronic component","Antenna (radio)",
     "Vehicle","Airplane", "Train", "Boat",
+    "Road","Highway",
     
     #literature
     "Literature","Novel","Prose","Book","Biography","Autobiography"]

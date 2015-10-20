@@ -1,31 +1,23 @@
 ﻿using System.Collections.Generic;
 using rossum.Files;
+using System;
 
 namespace rossum.Tools
 {
     public static class TextToData
     {
-        public static Dictionary<string, double> Counts(string line)
-        {
-            Dictionary<string, double> res = new Dictionary<string, double>();
-            foreach (string elt in line.Split(' '))
-                if (res.ContainsKey(elt))
-                    res[elt]++;
-                else
-                    res.Add(elt, 1);
-            return res;
-        }
 
-        public static Dictionary<string, double> Order(string line)
+        public static Dictionary<string, double> ParseString(string line)
         {
-            Dictionary<string, double> res = new Dictionary<string, double>();
-            int index = 0;
-            foreach (string elt in line.Split(' '))
+            string[] splitted = line.Split(' ');
+            Dictionary<string, double> dic = new Dictionary<string, double>();
+            foreach (string elt in splitted)
             {
-                res.Add(elt, index);
-                index++;
+                string key = elt.Split(':')[0];
+                double value = Convert.ToDouble(elt.Split(':')[1]);
+                dic.Add(key, value);
             }
-            return res;
+            return dic;
         }
 
         public static string[] ImportColumn(string filePath, int colIndex)
