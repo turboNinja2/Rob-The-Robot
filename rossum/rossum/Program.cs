@@ -64,7 +64,7 @@ namespace rossum
             tok = new OrderedCounts();
             dist = new SortedLevenshtein();
 
-            //Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
 
             reader = new StemmingPunctuationStop();
@@ -90,7 +90,7 @@ namespace rossum
             tok = new OrderedCounts();
             dist = new SortedLevenshtein();
 
-            //Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
 
             reader = new StemmingPunctuationStop();
@@ -116,7 +116,7 @@ namespace rossum
             tok = new OrderedCounts();
             dist = new SortedLevenshtein();
 
-            //Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
             reader = new StemmingPunctuationStop();
             tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
@@ -141,7 +141,7 @@ namespace rossum
             tok = new OrderedCounts();
             dist = new SortedLevenshtein();
 
-            //Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
 
             reader = new StemmingPunctuationStop();
             tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
@@ -166,7 +166,7 @@ namespace rossum
             tok = new OrderedCounts();
             dist = new SortedLevenshtein();
 
-            //Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(reader, tok, dist, nbNeighbours, train, multipleAnswers, questionFilePath, encyclopediaFilePath, outFolder);
             
 
             Console.ReadKey();

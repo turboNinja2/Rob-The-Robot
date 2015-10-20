@@ -22,15 +22,25 @@ articles = [
     "Continent","Asia","Africa","North America","South America","Antarcticta","Europe","Australia",
     "New York","London","Paris","Tokyo","Rome",
     "Pacific Ocean","Indian Ocean","Atlantic Ocean",
+    "India","China","Japan","France",
     
     #history
     "History", 
     "History of the United States","Christopher Columbus",
     "List of Presidents of the United States",
     "War","Peace",
-    "Ancient history","Julius Caesar","Roman Empire",
+    "Ancient history","Civilization",
+    "Julius Caesar","Roman Empire",
+    "Ancient Greece",
     "Middle Ages",
     "Agriculture","Hunter-gatherer",
+    
+    #Politics
+    "Democracy","Monarchy","Dictatorship",
+    "Nation","State (polity)",
+    
+    #Economics
+    "Economics","Market (economics)",
     
     #religion
     "God",
@@ -67,8 +77,9 @@ articles = [
     "Universe", "Space", "Planet", "Star", "Comet", "Asteroid", "Galaxy", 
     "Earth", "Moon", "Sun",
     
-    #hum
-    "Desert", "Ocean", "Forest", "Fire", "Wind",
+    #Climate
+    "Desert", "Ocean", "Forest", "Fire", "Wind", "Iceberg",
+    "Rain","Cave", "Geology",
     
     #physics
     "Water","Properties of water",
@@ -86,7 +97,7 @@ articles = [
     #techno
     "Computer","Robot","Car","Television","Screen","Internet","Integrated circuit",
     "Electronic component","Antenna (radio)",
-    
+    "Vehicle","Airplane", "Train", "Boat",
     
     #literature
     "Literature","Novel","Prose","Book","Biography","Autobiography"]

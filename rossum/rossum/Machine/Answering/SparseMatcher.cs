@@ -28,14 +28,14 @@ namespace rossum.Machine.Answering
 
         public string[] SparseAnswer(int nbNeighbours, string questionnaireFilePath, string encyclopediaFilePath, bool train, bool multipleAnswers)
         {
-            Console.Write("\nImport encyclopedia");
+            Console.Write("\nImport Encyclopedia");
             IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
 
-            Console.Write("\nImport questions");
+            Console.Write("\nImport Questions");
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, _reader, train);
 
             Console.Write("\nTrain KNN");
-            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 2000);
+            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, encyclopedia.Length / 50);
             learner.Train(encyclopedia);
 
             string[] results = new string[questions.Length];
