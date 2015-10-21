@@ -1,3 +1,2 @@
-.\rossum\rossum\bin\x64\Release\rossum.exe -test .\data\validation_set.tsv -encyclopedia .\scraper\All.ency
 .\rossum\rossum\bin\x64\Release\rossum.exe -test .\data\validation_set.tsv -encyclopedia .\scraper\CK12.ency
 pause

@@ -11,7 +11,7 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Started:" + DateTime.Now.ToString());
+            Console.WriteLine("->Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
@@ -48,7 +48,7 @@ namespace rossum
                     return;
                 }
             }
-
+            /*
             int nbNeighbours = 1;
 
             Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
@@ -72,6 +72,17 @@ namespace rossum
                 nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
             nbNeighbours = 5;
+
+            Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            Pipeline.Run(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            Pipeline.Run(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+            */
+            int nbNeighbours = 10;
 
             Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
                 nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
