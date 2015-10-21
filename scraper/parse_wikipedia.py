@@ -56,12 +56,16 @@ articles = [
     "Anatomy","Human body","Human head","Human brain","Nervous system","Smooth muscle tissue",
     "Blood","Blood type","Circulatory system",
     
-    "Life","Organism","Cell (biology)","Biology","Bacteria","Microscope","Virus","DNA","Genetic code","Gene",
-    "HIV",
+    "Life","Organism","Cell (biology)",
+    "Bacteria","Microscope","Virus",
+    "DNA","Genetic code","Gene","Chromosome","Chromatid","Zygosity",
+    
+    "Viral disease","HIV","Rabies",
     "Medicine","Vaccination",
     "Cat","Dog","Rabbit","Bird","Elephant",
     "Fossil","Natural History", "Dinosaur",
     "Continental drift","Earthquake","Epicenter",
+    
     "Magma","Volcano","Lava",
     "Sport",
     "Meat","Vegetables",
@@ -92,7 +96,7 @@ articles = [
     #physics
     "Water","Properties of water",
     "Temperature",
-    "Gas","Liquid","Solid",
+    "State of matter","Gas","Liquid","Solid",
     "Acid","Base (chemistry)",
     
     "Light","Prism","Optics","Rainbow",
