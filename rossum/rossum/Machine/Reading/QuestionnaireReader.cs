@@ -8,7 +8,7 @@ namespace rossum.Reading.Readers
 {
     public static class QuestionnaireReader
     {
-        public static RawQuestion[] Import(string filePath, IReader reader, bool train)
+        public static RawQuestion[] Import(string filePath, bool train)
         {
             List<RawQuestion> questions = new List<RawQuestion>();
             int linesRead = 0;
@@ -16,7 +16,7 @@ namespace rossum.Reading.Readers
             {
                 linesRead++;
                 if (linesRead == 1) continue;
-                questions.Add(new RawQuestion(reader.Read(line), train));
+                questions.Add(new RawQuestion(line, train));
 
                 if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
                 {

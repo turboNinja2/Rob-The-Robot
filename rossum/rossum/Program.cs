@@ -11,12 +11,12 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            //Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Started:" + DateTime.Now.ToString());
 
-            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\validation_set.tsv",
-                encyclopediaFilePath = @"C:\Users\JUJulien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
                 outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\";
-            bool train = false;
+            bool train = true;
             bool proba = false;
 
 
@@ -49,37 +49,38 @@ namespace rossum
                 }
             }
 
-            IReader reader = new StemmingPunctuationStop();
-
-            MarkovMatcher mm = new MarkovMatcher(reader);
-            mm.Learn(encyclopediaFilePath);
-
-            ITokenizer tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            ISparseDistance dist = new InformationDiffusion();
             int nbNeighbours = 1;
 
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-            reader = new StemmingPunctuationStop();
-            tok = new TFIDF(encyclopediaFilePath, questionFilePath, reader);
-            dist = new InformationDiffusion();
+            Pipeline.Run(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            Pipeline.Run(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(), 
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            nbNeighbours = 3;
+
+            Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            Pipeline.Run(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+            Pipeline.Run(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
             nbNeighbours = 5;
 
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-            nbNeighbours = 1;
+            Pipeline.Run(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-            reader = new LowerCasePunctuation();
-            tok = new Counts();
-            dist = new NormalizedJaccard();
-            nbNeighbours = 5;
-
-            Pipeline.Run(reader, tok, dist, nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.Run(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
+                nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
         }
     }

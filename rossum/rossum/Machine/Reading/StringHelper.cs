@@ -10,14 +10,15 @@ namespace rossum.Machine.Reading
         public static string RemovePunctuation(string line)
         {
             line = line.Replace(".", "");
-            line = line.Replace("_", "");
             line = line.Replace(",", "");
-            
+
             line = line.Replace("\"", "");
             line = line.Replace("?", "");
 
             line = line.Replace("(", "");
             line = line.Replace(")", "");
+
+            line = line.Replace("-", " ");
 
             return line;
         }

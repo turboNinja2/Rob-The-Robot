@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using rossum.Answering;
 using rossum.Machine.Learning;
 using rossum.Machine.Learning.SparseDistances;
@@ -32,7 +31,7 @@ namespace rossum.Machine.Answering
             IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
 
             Console.Write("\nImport Questions");
-            RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, _reader, train);
+            RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
 
             Console.Write("\nTrain KNN");
             SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 2000);
@@ -42,14 +41,10 @@ namespace rossum.Machine.Answering
 
             Console.Write("\nStarted prediction");
 
-            Parallel.For(0, questions.Length, k =>
-            //for(int k = 0; k < questions.Length; k++)
+            for(int k = 0; k < questions.Length; k++)
             {
-
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
-                {
                     Console.Write('.');
-                }
 
                 RawQuestion question = questions[k];
                 string[] proposals = question.GetCombinations();
@@ -57,7 +52,7 @@ namespace rossum.Machine.Answering
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
-                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(proposals[i]);
+                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(_reader.Read(proposals[i]));
                     distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 
@@ -76,8 +71,7 @@ namespace rossum.Machine.Answering
                     int bestcandidate = Array.FindIndex(distancesToEncyclopedia, d => d == minDistance);
                     results[k] = IntToAnswers.ToAnswer(bestcandidate);
                 }
-
-            });
+            }
 
             return results;
         }

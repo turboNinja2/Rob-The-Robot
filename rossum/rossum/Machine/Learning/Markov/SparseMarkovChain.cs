@@ -7,10 +7,9 @@ namespace rossum.Machine.Learning.Markov
         // private attributes with default constructor
         private Dictionary<T, Dictionary<T, int>> _sparseMC = new Dictionary<T, Dictionary<T, int>>();
         private Dictionary<T, int> _countEltLeaving = new Dictionary<T, int>();
+        private HashSet<T> _colElements = new HashSet<T>();
         private int _size = 0;
 
-        private HashSet<T> _rowsElements = new HashSet<T>();
-        private HashSet<T> _colElements = new HashSet<T>();
 
         public double GetTransition(T p1, T p2)
         {

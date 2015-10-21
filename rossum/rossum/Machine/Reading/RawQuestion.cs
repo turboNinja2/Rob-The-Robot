@@ -4,6 +4,8 @@ namespace rossum.Answering
 {
     public class RawQuestion
     {
+        private string _rawText;
+
         private string _question;
 
         private string _answerA;
@@ -13,8 +15,14 @@ namespace rossum.Answering
 
         private string _answer;
 
+        public string Question
+        {
+            get { return _question; }
+        }
+
         public RawQuestion(string line, bool containsAnswer)
         {
+            _rawText = line;
             string[] splitted_line = line.Split('\t');
 
             if (containsAnswer)
@@ -38,10 +46,22 @@ namespace rossum.Answering
 
         public string[] GetCombinations()
         {
-            return new string[4]{_question + " " + _answerA,
+
+            if (_question.Contains(" __________")) // fill in the gap type of question
+            {
+                return new string[4]{_question.Replace("__________",_answerA),
+                _question.Replace("__________",_answerB),
+                _question.Replace("__________",_answerC),
+                _question.Replace("__________",_answerD)};
+
+            }
+            else
+            {
+                return new string[4]{_question + " " + _answerA,
                 _question + " " + _answerB,
                 _question + " " + _answerC,
                 _question + " " + _answerD};
+            }
         }
     }
 }

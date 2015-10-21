@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using rossum.Tools;
+using System.Threading.Tasks;
 
 namespace rossum.Machine.Learning
 {
@@ -67,11 +68,12 @@ namespace rossum.Machine.Learning
             int[] relevantIndexes = PreselectNeighbours(keys, _invertedIndexes);
             double[] distances = new double[relevantIndexes.Length];
 
-            for (int i = 0; i < relevantIndexes.Length; i++)
+            //for (int i = 0; i < relevantIndexes.Length; i++)
+            Parallel.For(0, relevantIndexes.Length, i =>
             {
                 int relevantIndex = relevantIndexes[i];
                 distances[i] = distance(newPoint, sample[relevantIndex]);
-            }
+            });
 
             double[] neighboursDistances = LazyBubbleSort(distances, nbNeighbours);
             return neighboursDistances;
