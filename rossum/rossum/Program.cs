@@ -53,17 +53,19 @@ namespace rossum
 
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
 
             order = 1;
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             order = 2;
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-
 
             int[] nbNeighboursArray = new int[5] { 1, 3, 5, 10, 15 };
 

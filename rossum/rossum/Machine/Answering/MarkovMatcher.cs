@@ -30,8 +30,8 @@ namespace rossum.Machine.Answering
                 string[] splitted = readLine.Split(' ').ToArray();
                 if (splitted.Length < _order) continue;
                 string[] stackedLine = Stack(splitted, _order);
-                for (int i = _order; i < splitted.Length; i++)
-                    _smc.AddTransition(splitted[i - _order], splitted[i]);
+                for (int i = 1; i < stackedLine.Length; i++)
+                    _smc.AddTransition(stackedLine[i - 1], stackedLine[i]);
             }
         }
 
