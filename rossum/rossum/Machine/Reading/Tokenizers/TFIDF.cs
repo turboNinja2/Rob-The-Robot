@@ -38,9 +38,9 @@ namespace rossum.Machine.Reading.Tokenizers
             foreach (string line in LinesEnumerator.YieldLines(filePath2))
             {
                 RawQuestion rq = new RawQuestion(line, train);
-                string[] res = rq.GetCombinations();
-                for (int i = 0; i < res.Length; i++)
-                    foreach (string element in reader.Read(res[i]).Split(' ').Distinct())
+                string[] combinations = rq.GetCombinations();
+                for (int i = 0; i < combinations.Length; i++)
+                    foreach (string element in reader.Read(combinations[i]).Split(' ').Distinct())
                     {
                         if (_idf.ContainsKey(element))
                             _idf[element]++;

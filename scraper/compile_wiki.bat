@@ -1,2 +1,0 @@
-python compile_articles.py
-pause

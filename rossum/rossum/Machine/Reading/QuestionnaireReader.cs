@@ -15,13 +15,8 @@ namespace rossum.Reading.Readers
             foreach (string line in LinesEnumerator.YieldLines(filePath))
             {
                 linesRead++;
-                if (linesRead == 1) continue;
+                if (linesRead == 1) continue; // drop header
                 questions.Add(new RawQuestion(line, train));
-
-                if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
-                {
-                    Console.Write('.');
-                }
             }
             return questions.ToArray();
         }
