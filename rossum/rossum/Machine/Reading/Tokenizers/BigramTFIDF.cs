@@ -4,6 +4,7 @@ using System.Linq;
 using rossum.Files;
 using rossum.Reading.Readers;
 using rossum.Settings;
+using rossum.Answering;
 
 namespace rossum.Machine.Reading.Tokenizers
 {
@@ -11,7 +12,7 @@ namespace rossum.Machine.Reading.Tokenizers
     {
         Dictionary<string, double> _idf = new Dictionary<string, double>();
 
-        public BigramTFIDF(string filePath1, string filePath2, IReader reader)
+        public BigramTFIDF(string filePath1, string filePath2, IReader reader, bool train)
         {
             Console.Write("Preparing IDF");
             int linesRead = 0;
@@ -36,16 +37,16 @@ namespace rossum.Machine.Reading.Tokenizers
 
             foreach (string line in LinesEnumerator.YieldLines(filePath2))
             {
-                List<string> res = reader.Read(line).Split(' ', '\t').ToList();
-
-                foreach (string element in res.Distinct())
-                {
-                    if (_idf.ContainsKey(element))
-                        _idf[element]++;
-                    else
-                        _idf.Add(element, 1);
-                }
-
+                RawQuestion rq = new RawQuestion(line, train);
+                string[] res = rq.GetCombinations();
+                for (int i = 0; i < res.Length; i++)
+                    foreach (string element in reader.Read(res[i]).Split(' ').Distinct())
+                    {
+                        if (_idf.ContainsKey(element))
+                            _idf[element]++;
+                        else
+                            _idf.Add(element, 1);
+                    }
                 if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
                     Console.Write('.');
 
