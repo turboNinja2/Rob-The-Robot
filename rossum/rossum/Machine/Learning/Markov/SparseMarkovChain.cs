@@ -1,51 +1,73 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace rossum.Machine.Learning.Markov
 {
     public class SparseMarkovChain<T>
     {
-        // private attributes with default constructor
-        private Dictionary<T, Dictionary<T, int>> _sparseMC = new Dictionary<T, Dictionary<T, int>>();
+        private Dictionary<T, Dictionary<T, int>> _sparseMarkovChain = new Dictionary<T, Dictionary<T, int>>();
         private Dictionary<T, int> _countEltLeaving = new Dictionary<T, int>();
-        private HashSet<T> _colElements = new HashSet<T>();
         private int _size = 0;
-
 
         public double GetTransition(T p1, T p2)
         {
-            if (_sparseMC.ContainsKey(p1))
+            Dictionary<T, int> p1Value;
+            if (!_sparseMarkovChain.TryGetValue(p1, out p1Value))
             {
-                if (_sparseMC[p1].ContainsKey(p2))
-                    return (1f + _sparseMC[p1][p2]) / (_countEltLeaving[p1] + _size);
-                else
-                    return 1f / (_countEltLeaving[p1] + _size);
+                return 1f / _size;
             }
-            else
-                return 1f / _size; //p1 unknown, return uniform proba
+
+            int p2Value;
+            if (p1Value.TryGetValue(p2, out p2Value))
+            {
+                return (1f + p2Value) / (_countEltLeaving[p1] + _size);
+            }
+
+            return 1f / (_countEltLeaving[p1] + _size);
         }
 
         public void AddTransition(T p1, T p2)
         {
-            if (_sparseMC.ContainsKey(p1))
+            if (_sparseMarkovChain.ContainsKey(p1))
             {
                 _countEltLeaving[p1]++;
-                if (_sparseMC[p1].ContainsKey(p2))
-                    _sparseMC[p1][p2] += 1;
+                if (_sparseMarkovChain[p1].ContainsKey(p2))
+                {
+                    _sparseMarkovChain[p1][p2] += 1;
+                }
                 else
                 {
-                    _sparseMC[p1].Add(p2, 1); // the default value of the MC is 1, if we see one element, the count value is two
+                    _sparseMarkovChain[p1].Add(p2, 1);
                 }
             }
             else
             {
                 _size++;
-                if (!_colElements.Contains(p2))
+                if (!_sparseMarkovChain.ContainsKey(p2))
+                {
                     _size++;
-                Dictionary<T, int> nd = new Dictionary<T, int>();
-                nd.Add(p2,1);
-                _sparseMC.Add(p1, nd);
+                }
+
+                _sparseMarkovChain.Add(p1, new Dictionary<T, int> { { p2, 1 } });
+
                 _countEltLeaving.Add(p1, 1);
             }
         }
+
+        public double LogLikelihood(T[] path)
+        {
+            double res = 0;
+            for (int i = 1; i < path.Length; i++)
+            {
+                res += Math.Log(GetTransition(path[i - 1], path[i]));
+            }
+            return res;
+        }
+
+        public double LengthNormalizedLogLikelihood(T[] path)
+        {
+            return LogLikelihood(path) / path.Length;
+        }
+
     }
 }

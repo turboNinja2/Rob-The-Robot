@@ -16,37 +16,7 @@ def import_clean_and_write(article_name):
     f.write(remove_empty_lines_and_titles(import_raw_article(article_name)))
     
 articles = [
-    # geo
-    "Geography",
-    "Map","North","South","East","West",
-    "Continent","Asia","Africa","North America","South America","Antarcticta","Europe","Australia",
-    "New York","London","Paris","Tokyo","Rome",
-    "Pacific Ocean","Indian Ocean","Atlantic Ocean",
-    "India","China","Japan","France",
-    
-    #history
-    "History", 
-    "History of the United States","Christopher Columbus",
-    "List of Presidents of the United States",
-    "War","Peace",
-    "Ancient history","Civilization",
-    "Julius Caesar","Roman Empire",
-    "Ancient Greece",
-    "Middle Ages",
-    "Agriculture","Hunter-gatherer",
-    
-    #Politics
-    "Democracy","Monarchy","Dictatorship",
-    "Nation",
-    
-    #Economics
-    "Economics","Market (economics)",
-    
-    #religion
-    "God",
-    "Monotheism","Polytheism",
-    "Islam","Christianity","Judaism",
-    
+
     #news
     "Newspaper","Pollution","Ecology",
 
@@ -96,12 +66,20 @@ articles = [
     #physics
     "Water","Properties of water",
     "Temperature",
-    "State of matter","Gas","Liquid","Solid",
+    "State of matter",
+    "Gas","Liquid","Solid",
+    "Condensation","Evaporation","Liquefaction",
+    
+    "Distillation",
+    "Chemical reaction",
+    
     "Acid","Base (chemistry)",
     
     "Light","Prism","Optics","Rainbow",
     "Atom","Molecule","Electron","Subatomic particle","Particle",
     
+    "Periodic table","Atomic number","Chemical element",
+    "Halogen","Noble gas",
     "Carbon","Hydrogen","Oxygen","Calcium","Helium","Nitrogen",
     "Aluminium","Gold","Silver",
     
@@ -118,12 +96,9 @@ articles = [
     "Telephone",
     "Electronic component","Antenna (radio)",
     "Vehicle","Airplane", "Train", "Boat",
-    "Road","Highway",
-    
-    #literature
-    "Verb","Noun","Grammar","English Grammar",
-    "Literature","Novel","Prose","Book","Biography","Autobiography"]
+    "Road","Highway"]
 
+articles = open("list_science_articles.dat","r").read().split('\n')
     
 for article in articles:
     print(article) # bufferd importation (to save wikipedia)
@@ -131,4 +106,7 @@ for article in articles:
         print("-present")
     else:
         print("-download")
-        import_clean_and_write(article)
+        try:
+            import_clean_and_write(article)
+        except:
+            pass

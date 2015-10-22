@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using rossum.Machine.Learning.Markov;
-using rossum.Machine.Learning.SparseDistances;
-using rossum.Reading.Readers;
-using rossum.Machine.Reading.Tokenizers;
-using rossum.Files;
 using rossum.Answering;
+using rossum.Files;
+using rossum.Machine.Learning.Markov;
+using rossum.Reading.Readers;
+using rossum.Settings;
+using rossum.Tools;
 
 namespace rossum.Machine.Answering
 {
@@ -15,13 +13,13 @@ namespace rossum.Machine.Answering
     {
         private SparseMarkovChain<string> _smc = new SparseMarkovChain<string>();
         private IReader _reader;
-        private int _lag;
+        private int _order;
 
 
-        public MarkovMatcher(IReader reader, int lag = 1)
+        public MarkovMatcher(IReader reader, int order = 1)
         {
             _reader = reader;
-            _lag = lag;
+            _order = order;
         }
 
         public void Learn(string inputFilePath)
@@ -30,20 +28,56 @@ namespace rossum.Machine.Answering
             {
                 string readLine = _reader.Read(rawLine);
                 string[] splitted = readLine.Split(' ').ToArray();
-                for (int i = _lag; i < splitted.Length; i++)
-                    _smc.AddTransition(splitted[i - _lag], splitted[i]);
+                if (splitted.Length < _order) continue;
+                string[] stackedLine = Stack(splitted, _order);
+                for (int i = _order; i < splitted.Length; i++)
+                    _smc.AddTransition(splitted[i - _order], splitted[i]);
             }
         }
 
-        public void AnswerOneQuestion(RawQuestion mcq)
+        private string[] Stack(string[] splittedLine, int order)
+        {
+            string[] res = new string[splittedLine.Length - order];
+            for (int i = order; i < splittedLine.Length; i++)
+            {
+                string stamp = splittedLine[i];
+                for (int k = 1; k < order; k++)
+                    stamp = splittedLine[i - k] + " " + stamp;
+                res[i - order] = stamp;
+            }
+            return res;
+        }
+
+        private string AnswerOneQuestion(RawQuestion mcq)
         {
             string question = mcq.Question;
-            
-            if(question.Contains("__________")); // fill in the gap
+            string[] proposals = mcq.GetMarkovCombinations();
+            double[] likelihoods = new double[proposals.Length];
+            for (int i = 0; i < likelihoods.Length; i++)
             {
+                string readQuestion = _reader.Read(proposals[i]);
+                string[] splittedQuestion = readQuestion.Split(' ').ToArray();
+                string[] stackedQuestion = Stack(splittedQuestion, _order);
+                likelihoods[i] = _smc.LengthNormalizedLogLikelihood(stackedQuestion);
 
             }
+            double maxLikelihood = likelihoods.Max();
+            int bestcandidate = Array.FindIndex(likelihoods, d => d == maxLikelihood);
+            return IntToAnswers.ToAnswer(bestcandidate);
         }
 
+        public string[] Answer(string questionnaireFilePath, bool train)
+        {
+            RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
+            string[] results = new string[questions.Length];
+
+            for (int k = 0; k < questions.Length; k++)
+            {
+                if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
+                    Console.Write('.');
+                results[k] = AnswerOneQuestion(questions[k]);
+            }
+            return results;
+        }
     }
 }

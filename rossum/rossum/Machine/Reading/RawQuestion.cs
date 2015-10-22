@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace rossum.Answering
 {
@@ -63,5 +64,36 @@ namespace rossum.Answering
                 _question + " " + _answerD};
             }
         }
+
+
+        public string[] GetMarkovCombinations()
+        {
+            Regex whichIs = new Regex(@"[Ww]hich ([A-Za-z0-9\-]+) is ([A-Za-z0-9\-]+)");
+            Match match = whichIs.Match(_question);
+
+            if (_question.Contains(" __________")) // EASIEST type to detect : fill in the gap type of question
+            {
+                return new string[4]{_question.Replace("__________",_answerA),
+                _question.Replace("__________",_answerB),
+                _question.Replace("__________",_answerC),
+                _question.Replace("__________",_answerD)};
+            }
+            else if (_question.Contains("Which of the following ")) // EASIEST type to detect : fill in the gap type of question
+            {
+                string[] res = new string[4]{_question.Replace("Which of the following",_answerA),
+                _question.Replace("Which of the following",_answerB),
+                _question.Replace("Which of the following",_answerC),
+                _question.Replace("Which of the following",_answerD)};
+                return res;
+            }
+            else
+            {
+                return new string[4]{_question + " " + _answerA,
+                _question + " " + _answerB,
+                _question + " " + _answerC,
+                _question + " " + _answerD};
+            }
+        }
+
     }
 }

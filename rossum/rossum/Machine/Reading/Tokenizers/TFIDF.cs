@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using rossum.Answering;
 using rossum.Files;
 using rossum.Reading.Readers;
 using rossum.Settings;
-using rossum.Answering;
 
 namespace rossum.Machine.Reading.Tokenizers
 {

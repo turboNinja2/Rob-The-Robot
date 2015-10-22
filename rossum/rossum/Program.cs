@@ -11,10 +11,10 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(";-p Started : " + DateTime.Now.ToString());
+            Console.WriteLine(";-mmm Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\Wikipedia.ency",
                 outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\";
             bool train = true;
             bool proba = false;
@@ -49,31 +49,47 @@ namespace rossum
                 }
             }
 
+            int order = 0;
+
+            Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+
+            order = 1;
+            Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            order = 2;
+            Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+
+
             int[] nbNeighboursArray = new int[5] { 1, 3, 5, 10, 15 };
 
             foreach (int nbNeighbours in nbNeighboursArray)
             {
-                Pipeline.Run(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
+                Pipeline.MetricRun(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.Run(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-
-                Pipeline.Run(new StemmingPunctuationStop(), new BigramTFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-                Pipeline.Run(new StemmingPunctuationStop2(), new BigramTFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
+                Pipeline.MetricRun(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
 
-                Pipeline.Run(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
+                Pipeline.MetricRun(new StemmingPunctuationStop(), new BigramTFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.Run(new StemmingPunctuationStop(), new Counts(), new NormalizedJaccard(),
+                Pipeline.MetricRun(new StemmingPunctuationStop2(), new BigramTFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.Run(new StemmingPunctuationStop2(), new Counts(), new NormalizedJaccard(),
+
+                Pipeline.MetricRun(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new StemmingPunctuationStop(), new Counts(), new NormalizedJaccard(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new StemmingPunctuationStop2(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
             }
 
