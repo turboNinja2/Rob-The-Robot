@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using rossum.Machine.Reading;
+﻿using rossum.Machine.Reading;
 
 namespace rossum.Reading.Readers
 {

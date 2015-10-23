@@ -91,6 +91,7 @@
     <Compile Include="Machine\Learning\Kernels\_ISparseKernel.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
+    <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop3.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop2.cs" />
     <Compile Include="Machine\Reading\Readers\LowerCasePunctuation.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Machine\Reading\Readers\Stemmers\EnglishStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\Readers\Stopwords\ElargedStopWords.cs" />
     <Compile Include="Machine\Reading\Readers\Stopwords\DefaultStopWords.cs" />
     <Compile Include="Machine\Reading\Readers\Stopwords\GoogleStopWords.cs" />
     <Compile Include="Machine\Reading\StringHelper.cs" />

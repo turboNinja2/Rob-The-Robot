@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace rossum.Reading.Readers
+﻿namespace rossum.Reading.Readers
 {
     public interface IReader
     {

@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
-namespace rossum.Reading.Readers
+﻿namespace rossum.Reading.Readers
 {
     public class LowerCase : IReader
     {

@@ -11,7 +11,7 @@ namespace rossum.Files
         /// </summary>
         /// <param name="path">The path of the file.</param>
         /// <returns>The lines of a file, as a IEnumerable</returns>
-        public static IEnumerable<string> YieldLines(string path, int maxLines = Int32.MaxValue)
+        public static IEnumerable<string> YieldLines(string path)
         {
             string line;
             using (FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))

@@ -11,10 +11,10 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(";) Started : " + DateTime.Now.ToString());
+            Console.WriteLine(";w Started : " + DateTime.Now.ToString());
 
-            string questionFilePath = @"",
-                encyclopediaFilePath = @"",
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\Wikipedia.ency",
                 outFolder = @"";
             bool train = true;
             bool proba = false;
@@ -48,13 +48,14 @@ namespace rossum
                     return;
                 }
             }
-            /*
+            
             int order = 0;
 
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
 
             order = 1;
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
@@ -66,7 +67,7 @@ namespace rossum
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            */
+            
 
             int[] nbNeighboursArray = new int[] { 1, 5, 8, 10, 12 };
 

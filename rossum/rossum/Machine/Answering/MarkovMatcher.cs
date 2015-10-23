@@ -24,14 +24,20 @@ namespace rossum.Machine.Answering
 
         public void Learn(string inputFilePath)
         {
+            int linesRead = 0;
             foreach (string rawLine in LinesEnumerator.YieldLines(inputFilePath))
             {
+                linesRead++;
                 string readLine = _reader.Read(rawLine);
                 string[] splitted = readLine.Split(' ').ToArray();
                 if (splitted.Length < _order) continue;
                 string[] stackedLine = Stack(splitted, _order);
                 for (int i = 1; i < stackedLine.Length; i++)
                     _smc.AddTransition(stackedLine[i - 1], stackedLine[i]);
+                if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
+                {
+                    Console.Write('.');
+                }
             }
         }
 

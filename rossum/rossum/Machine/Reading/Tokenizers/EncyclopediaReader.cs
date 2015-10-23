@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using rossum.Files;
+using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Settings;
-using rossum.Tools;
-using rossum.Machine.Reading.Tokenizers;
-using rossum.Tools.OrderedDictionary;
-using rossum.Machine.Reading;
 
 namespace rossum.Reading
 {
