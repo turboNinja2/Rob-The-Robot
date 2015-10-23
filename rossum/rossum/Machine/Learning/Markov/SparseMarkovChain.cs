@@ -74,9 +74,8 @@ namespace rossum.Machine.Learning.Markov
         {
             double res = 0;
             for (int i = 1; i < path.Length; i++)
-            {
-                res += Math.Log(GetTransition(path[i - 1], path[i]));
-            }
+                if (path[i] != null && path[i - 1] != null)
+                    res += Math.Log(GetTransition(path[i - 1], path[i]));
             return res;
         }
 

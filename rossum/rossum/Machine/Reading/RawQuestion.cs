@@ -51,7 +51,7 @@ namespace rossum.Answering
                 _answerD = splitted_line[5];
             }
 
-            if(_question.Contains("except"))
+            if (_question.Contains("except"))
                 _negativeQuestion = true;
 
         }
@@ -99,10 +99,10 @@ namespace rossum.Answering
             }
             else
             {
-                return new string[4]{_question + " " + _answerA,
-                _question + " " + _answerB,
-                _question + " " + _answerC,
-                _question + " " + _answerD};
+                return new string[]{_question + " " + _answerA,
+                    _question + " " + _answerB,
+                    _question + " " + _answerC,
+                    _question + " " + _answerD};
             }
         }
 

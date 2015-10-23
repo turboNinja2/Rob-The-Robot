@@ -14,7 +14,7 @@ namespace rossum
             Console.WriteLine(";3 Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\Wikipedia.ency",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
                 outFolder = @"";
             bool train = true;
             bool proba = false;
@@ -48,36 +48,16 @@ namespace rossum
                     return;
                 }
             }
-            
-            int order = 0;
-            /*
-            Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-             */
-            Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
 
-            order = 1;
-            /*
-            Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-             */
-            Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            order = 2;
-            /*
-            Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-             */
-            Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            
-
+            for (int order = 0; order < 3; order++)
+            {
+                for (int lag = 0; lag < 3; lag++)
+                {
+                    Pipeline.MarkovRun(new StemmingPunctuation(), order, lag, train, questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, lag, train, questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, lag, train, questionFilePath, encyclopediaFilePath, outFolder);
+                }
+            }
             int[] nbNeighboursArray = new int[] { 5, 8, 10, 12 };
 
             foreach (int nbNeighbours in nbNeighboursArray)
