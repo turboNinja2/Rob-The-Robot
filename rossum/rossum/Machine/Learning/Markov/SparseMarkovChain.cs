@@ -3,12 +3,23 @@ using System.Collections.Generic;
 
 namespace rossum.Machine.Learning.Markov
 {
+    /// <summary>
+    /// Implementation of a sparse Markov chain.
+    /// By default, every transition towards another state happens with uniform probability.
+    /// </summary>
+    /// <typeparam name="T">The type defining the states of the Markov chain</typeparam>
     public class SparseMarkovChain<T>
     {
         private Dictionary<T, Dictionary<T, int>> _sparseMarkovChain = new Dictionary<T, Dictionary<T, int>>();
         private Dictionary<T, int> _countEltLeaving = new Dictionary<T, int>();
         private int _size = 0;
 
+        /// <summary>
+        /// Probability to go from the state p1 to p2.
+        /// </summary>
+        /// <param name="p1">Starting point</param>
+        /// <param name="p2">End point</param>
+        /// <returns>The probability of the transition</returns>
         public double GetTransition(T p1, T p2)
         {
             Dictionary<T, int> p1Value;
@@ -26,6 +37,11 @@ namespace rossum.Machine.Learning.Markov
             return 1f / (_countEltLeaving[p1] + _size);
         }
 
+        /// <summary>
+        /// Updates the Markov chain with the transion p1 p2
+        /// </summary>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
         public void AddTransition(T p1, T p2)
         {
             if (_sparseMarkovChain.ContainsKey(p1))

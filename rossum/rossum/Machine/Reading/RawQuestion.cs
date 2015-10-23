@@ -16,9 +16,16 @@ namespace rossum.Answering
 
         private string _answer;
 
+        private bool _negativeQuestion = false;
+
         public string Question
         {
             get { return _question; }
+        }
+
+        public bool Negated
+        {
+            get { return _negativeQuestion; }
         }
 
         public RawQuestion(string line, bool containsAnswer)
@@ -43,6 +50,10 @@ namespace rossum.Answering
                 _answerC = splitted_line[4];
                 _answerD = splitted_line[5];
             }
+
+            if(_question.Contains("except"))
+                _negativeQuestion = true;
+
         }
 
         public string[] GetCombinations()

@@ -70,27 +70,17 @@
     <Compile Include="Machine\Answering\SparseMatcher.cs" />
     <Compile Include="Machine\Learning\Distances\InformationDiffusion.cs" />
     <Compile Include="Machine\Learning\Distances\TanimotoDistance.cs" />
-    <Compile Include="Machine\Learning\Distances\SortedLevenshtein.cs" />
     <Compile Include="Machine\Learning\Markov\SparseMarkovChain.cs" />
     <Compile Include="Machine\Learning\SparseKNN.cs" />
     <Compile Include="Machine\Learning\Distances\CosineDistance.cs" />
-    <Compile Include="Machine\Learning\Distances\NormalizedLevenshtein.cs" />
+    <Compile Include="Machine\Learning\Distances\SortedLevenshtein.cs" />
     <Compile Include="Machine\Learning\Distances\NormalizedJaccard.cs" />
     <Compile Include="Machine\Learning\Distances\_ISparseDistance.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Machine\Learning\Distances\KernelDistance.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Machine\Learning\Kernels\Linear.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Machine\Learning\Kernels\Poly.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Machine\Learning\Kernels\_ISparseKernel.cs" />
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
+    <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop4.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop3.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop.cs" />
     <Compile Include="Machine\Reading\Readers\StemmingPunctuationStop2.cs" />
@@ -101,6 +91,7 @@
     <Compile Include="Machine\Reading\Readers\Stemmers\EnglishStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\IStemmer.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\StemmerOperations.cs" />
+    <Compile Include="Machine\Reading\Readers\Stopwords\SQLStopWords.cs" />
     <Compile Include="Machine\Reading\Readers\Stopwords\ElargedStopWords.cs" />
     <Compile Include="Machine\Reading\Readers\Stopwords\DefaultStopWords.cs" />
     <Compile Include="Machine\Reading\Readers\Stopwords\GoogleStopWords.cs" />

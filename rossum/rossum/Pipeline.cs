@@ -15,7 +15,7 @@ namespace rossum
         {
             string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
 
-            string summary = reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString() + "_" + encyclopediaName;
+            string summary = "Markov_" + reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString() + "_" + encyclopediaName;
             Console.Write("\n" + summary);
 
             SparseMatcher robot = new SparseMatcher(dist, reader, tok);

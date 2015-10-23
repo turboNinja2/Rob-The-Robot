@@ -67,8 +67,14 @@ namespace rossum.Machine.Answering
                 likelihoods[i] = _smc.LengthNormalizedLogLikelihood(stackedQuestion);
 
             }
-            double maxLikelihood = likelihoods.Max();
-            int bestcandidate = Array.FindIndex(likelihoods, d => d == maxLikelihood);
+
+            double targetLikelihood =0;
+            if (mcq.Negated)
+                targetLikelihood = likelihoods.Min();
+            else
+                targetLikelihood = likelihoods.Max();
+
+            int bestcandidate = Array.FindIndex(likelihoods, d => d == targetLikelihood);
             return IntToAnswers.ToAnswer(bestcandidate);
         }
 

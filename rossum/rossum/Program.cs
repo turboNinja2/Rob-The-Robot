@@ -11,7 +11,7 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(";w Started : " + DateTime.Now.ToString());
+            Console.WriteLine(";3 Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\Wikipedia.ency",
@@ -50,26 +50,35 @@ namespace rossum
             }
             
             int order = 0;
-
+            /*
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+             */
             Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
 
             order = 1;
+            /*
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+             */
+            Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             order = 2;
+            /*
             Pipeline.MarkovRun(new LowerCasePunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuation(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             Pipeline.MarkovRun(new StemmingPunctuationStop(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
-            Pipeline.MarkovRun(new StemmingPunctuationStop2(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+             */
+            Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
+            Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, questionFilePath, encyclopediaFilePath, outFolder);
             
 
-            int[] nbNeighboursArray = new int[] { 1, 5, 8, 10, 12 };
+            int[] nbNeighboursArray = new int[] { 5, 8, 10, 12 };
 
             foreach (int nbNeighbours in nbNeighboursArray)
             {
@@ -82,6 +91,12 @@ namespace rossum
                 Pipeline.MetricRun(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
+                Pipeline.MetricRun(new StemmingPunctuationStop3(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop3(), train), new InformationDiffusion(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new StemmingPunctuationStop4(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop4(), train), new InformationDiffusion(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
                 Pipeline.MetricRun(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
@@ -89,6 +104,12 @@ namespace rossum
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
                 Pipeline.MetricRun(new StemmingPunctuationStop2(), new Counts(), new NormalizedJaccard(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new StemmingPunctuationStop4(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
             }
 

@@ -34,7 +34,7 @@ namespace rossum.Machine.Answering
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
 
             //Console.Write("\nTrain KNN");
-            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 3000);
+            SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 5000);
             learner.Train(encyclopedia);
 
             string[] results = new string[questions.Length];
@@ -57,6 +57,10 @@ namespace rossum.Machine.Answering
                 }
 
                 double minDistance = distancesToEncyclopedia.Min();
+
+                double targetLikelihood = 0;
+                if (question.Negated)
+                    targetLikelihood = distancesToEncyclopedia.Max();
 
                 if (proba)
                 {
