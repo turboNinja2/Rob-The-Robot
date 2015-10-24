@@ -101,12 +101,12 @@ articles = [
 articles = open("list_science_articles.dat","r").read().split('\n')
     
 for article in articles:
-    print(article) # bufferd importation (to save wikipedia)
-    if os.path.isfile('./articles/'+article+".txt"):
-        print("-present")
-    else:
-        print("-download")
-        try:
+    try:
+        print(article) # bufferd importation (to save wikipedia)
+        if os.path.isfile('./articles/'+article+".txt"):
+            print("-present")
+        else:
+            print("-download")
             import_clean_and_write(article)
-        except:
-            pass
+    except:
+        pass

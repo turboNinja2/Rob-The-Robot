@@ -19,6 +19,7 @@ namespace rossum
             bool train = true;
             bool proba = false;
 
+            Submissions.MergeMod(@"C:\Users\JUJulien\Desktop\KAGGLE\Competitions\Rob-The-Robot\submissions\24_10\3");
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -80,9 +81,6 @@ namespace rossum
                 Pipeline.MetricRun(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
                       nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemmingPunctuationStop2(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop2(), train), new InformationDiffusion(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
                 Pipeline.MetricRun(new StemmingPunctuationStop3(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop3(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
@@ -91,9 +89,6 @@ namespace rossum
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
                 Pipeline.MetricRun(new StemmingPunctuationStop(), new Counts(), new NormalizedJaccard(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-                Pipeline.MetricRun(new StemmingPunctuationStop2(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
                 Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),

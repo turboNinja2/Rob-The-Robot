@@ -70,6 +70,7 @@
     <Compile Include="Machine\Answering\SparseMatcher.cs" />
     <Compile Include="Machine\Learning\Distances\InformationDiffusion.cs" />
     <Compile Include="Machine\Learning\Distances\TanimotoDistance.cs" />
+    <Compile Include="Machine\Learning\Histogram.cs" />
     <Compile Include="Machine\Learning\Markov\SparseMarkovChain.cs" />
     <Compile Include="Machine\Learning\SparseKNN.cs" />
     <Compile Include="Machine\Learning\Distances\CosineDistance.cs" />

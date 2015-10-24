@@ -1,22 +1,20 @@
 ﻿using System.Collections.Generic;
 using rossum.Files;
 using System;
+using rossum.Machine.Learning;
 
 namespace rossum.Tools
 {
     public static class TextToData
     {
 
-        public static Dictionary<string, double> ParseString(string line)
+        public static Histogram<string> ParseString(string line)
         {
             string[] splitted = line.Split(' ');
-            Dictionary<string, double> dic = new Dictionary<string, double>();
+            Histogram<string> dic = new Histogram<string>();
             foreach (string elt in splitted)
-            {
-                string key = elt.Split(':')[0];
-                double value = Convert.ToDouble(elt.Split(':')[1]);
-                dic.Add(key, value);
-            }
+                dic.UpdateKey(elt.Split(':')[0], Convert.ToDouble(elt.Split(':')[1].Replace('.',',')));
+            
             return dic;
         }
 
