@@ -56,7 +56,7 @@ namespace rossum.Machine.Answering
             return res;
         }
 
-        private string AnswerOneQuestion(RawQuestion mcq)
+        private string AnswerOneQuestion(RawQuestion mcq, bool proba)
         {
             string question = mcq.Question;
             string[] proposals = mcq.GetMarkovCombinations();
@@ -75,11 +75,22 @@ namespace rossum.Machine.Answering
             else
                 targetLikelihood = likelihoods.Max();
 
-            int bestcandidate = Array.FindIndex(likelihoods, d => d == targetLikelihood);
-            return IntToAnswers.ToAnswer(bestcandidate);
+            if (proba)
+            {
+                int[] candidates = likelihoods.Select((b, i) => 
+                    b == targetLikelihood ? i : -1).Where(i => i != -1).ToArray();
+                return String.Join(" ", candidates.Select(c =>
+                    IntToAnswers.ToAnswer(c) + ":" + (1f / candidates.Length).ToString().Replace(',', '.')));
+            }
+            else
+            {
+                int bestcandidate = Array.FindIndex(likelihoods, d => d == targetLikelihood);
+                return IntToAnswers.ToAnswer(bestcandidate);
+            }
+
         }
 
-        public string[] Answer(string questionnaireFilePath, bool train)
+        public string[] Answer(string questionnaireFilePath, bool train, bool proba)
         {
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
             string[] results = new string[questions.Length];
@@ -88,7 +99,7 @@ namespace rossum.Machine.Answering
             {
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
                     Console.Write('.');
-                results[k] = AnswerOneQuestion(questions[k]);
+                results[k] = AnswerOneQuestion(questions[k], proba);
             }
             return results;
         }

@@ -41,7 +41,7 @@ namespace rossum.Machine.Answering
 
             Console.Write("\nStarted prediction");
 
-            for(int k = 0; k < questions.Length; k++)
+            for (int k = 0; k < questions.Length; k++)
             {
                 if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
                     Console.Write('.');
@@ -56,23 +56,21 @@ namespace rossum.Machine.Answering
                     distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 
-                double minDistance = distancesToEncyclopedia.Min();
+                double targetDistance = distancesToEncyclopedia.Min();
 
-                double targetLikelihood = 0;
                 if (question.Negated)
-                    targetLikelihood = distancesToEncyclopedia.Max();
+                    targetDistance = distancesToEncyclopedia.Max();
 
                 if (proba)
                 {
-                    double avg = distancesToEncyclopedia.Average();
-                    double[] exps = distancesToEncyclopedia.Select(c => Math.Exp(-c / avg)).ToArray();
-                    double total = exps.Sum();
-                    double[] softmax = exps.Select(c => c / total).ToArray();
-                    results[k] = String.Join(" ", softmax.Select((c, i) => IntToAnswers.ToAnswer(i) + ":" + c.ToString()));
+                    int[] candidates = distancesToEncyclopedia.Select((b, i) => 
+                        b == targetDistance ? i : -1).Where(i => i != -1).ToArray();
+                    results[k] = String.Join(" ", candidates.Select(c => 
+                        IntToAnswers.ToAnswer(c) + ":" + (1f / candidates.Length).ToString().Replace(',','.')));
                 }
                 else
                 {
-                    int bestcandidate = Array.FindIndex(distancesToEncyclopedia, d => d == minDistance);
+                    int bestcandidate = Array.FindIndex(distancesToEncyclopedia, d => d == targetDistance);
                     results[k] = IntToAnswers.ToAnswer(bestcandidate);
                 }
             }

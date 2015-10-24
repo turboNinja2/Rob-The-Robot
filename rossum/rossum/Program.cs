@@ -11,7 +11,7 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(";3 Started : " + DateTime.Now.ToString());
+            Console.WriteLine(";p Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
@@ -47,17 +47,29 @@ namespace rossum
                     Submissions.MergeMod(submissionFolder);
                     return;
                 }
+
+                if (args[i] == "-prob")
+                {
+                    proba = true;
+                }
             }
 
+            Console.WriteLine(proba.ToString());
+
+            
             for (int order = 0; order < 3; order++)
             {
                 for (int lag = 0; lag < 3; lag++)
                 {
-                    Pipeline.MarkovRun(new StemmingPunctuation(), order, lag, train, questionFilePath, encyclopediaFilePath, outFolder);
-                    Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, lag, train, questionFilePath, encyclopediaFilePath, outFolder);
-                    Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, lag, train, questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MarkovRun(new StemmingPunctuation(), order, lag, train, proba,
+                        questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, lag, train, proba,
+                        questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, lag, train, proba,
+                        questionFilePath, encyclopediaFilePath, outFolder);
                 }
             }
+            
             int[] nbNeighboursArray = new int[] { 5, 8, 10, 12 };
 
             foreach (int nbNeighbours in nbNeighboursArray)
@@ -74,8 +86,6 @@ namespace rossum
                 Pipeline.MetricRun(new StemmingPunctuationStop3(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop3(), train), new InformationDiffusion(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemmingPunctuationStop4(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop4(), train), new InformationDiffusion(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
                 Pipeline.MetricRun(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
@@ -89,8 +99,6 @@ namespace rossum
                 Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemmingPunctuationStop4(), new Counts(), new NormalizedJaccard(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
             }
 
         }

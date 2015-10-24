@@ -41,7 +41,7 @@ namespace rossum
             Console.WriteLine();
         }
 
-        public static void MarkovRun(IReader reader, int order, int lag, bool train, string questionFilePath, string encyclopediaFilePath, string outFolder)
+        public static void MarkovRun(IReader reader, int order, int lag, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
             string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
 
@@ -50,7 +50,7 @@ namespace rossum
 
             MarkovMatcher mm = new MarkovMatcher(reader, order, lag);
             mm.Learn(encyclopediaFilePath);
-            string[] answers = mm.Answer(questionFilePath, train);
+            string[] answers = mm.Answer(questionFilePath, train, proba);
 
             if (train)
             {
