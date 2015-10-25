@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using rossum.Tools;
 using rossum.Machine.Learning;
+using rossum.Tools;
 
 namespace rossum.Files
 {

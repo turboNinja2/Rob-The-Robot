@@ -73,19 +73,18 @@ namespace rossum
 
                 foreach (int nbNeighbours in nbNeighboursArray)
                 {
-                    Pipeline.MetricRun(new StemmingPunctuationStop(), new OrderedCounts(), new WLevenshtein1(),
+                    Pipeline.MetricRun(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new CosineDistance(),
+                         nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop3(), train), new CosineDistance(),
                         nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new WLevenshtein1(),
+                    Pipeline.MetricRun(new StemmingPunctuationStop(), new Counts(), new NormalizedJaccard(),
                         nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                    Pipeline.MetricRun(new StemmingPunctuationStop(), new OrderedCounts(), new Levenshtein(),
+                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),
                         nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new OrderedCounts(), new Levenshtein(),
-                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-                    /*
                     Pipeline.MetricRun(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
                           nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
@@ -96,7 +95,9 @@ namespace rossum
                         nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
                     Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),
-                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);*/
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+
                 }
             }
         }

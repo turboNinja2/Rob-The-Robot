@@ -3,12 +3,14 @@ using System.Text.RegularExpressions;
 
 namespace rossum.Answering
 {
+    /// <summary>
+    /// Represent questions after being imported from a string. Contains the answer, 
+    /// the candidate answers and the type of question (fill in the gap ? regular).
+    /// </summary>
     public class RawQuestion
     {
         private string _rawText;
-
         private string _question;
-
         private string _answerA;
         private string _answerB;
         private string _answerC;

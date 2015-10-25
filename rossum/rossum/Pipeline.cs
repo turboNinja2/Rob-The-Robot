@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
+using rossum.Answering;
 using rossum.Files;
 using rossum.Machine.Answering;
 using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
-using rossum.Answering;
 
 namespace rossum
 {

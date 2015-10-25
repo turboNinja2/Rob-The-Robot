@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using rossum.Answering;
 using rossum.Files;
-using rossum.Settings;
 
 namespace rossum.Reading.Readers
 {
