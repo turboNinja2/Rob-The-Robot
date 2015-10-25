@@ -69,5 +69,10 @@ namespace rossum.Machine.Learning
                     result.UpdateKey(kvp.Key, kvp.Value);
             return result;
         }
+
+        public string ToString()
+        {
+            return string.Join(" ", _scores.Select(c => c.Key.ToString() + ":" + c.Value));
+        }
     }
 }

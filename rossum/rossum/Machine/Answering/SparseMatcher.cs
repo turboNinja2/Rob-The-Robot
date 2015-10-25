@@ -12,28 +12,25 @@ using rossum.Tools;
 
 namespace rossum.Machine.Answering
 {
-    public class SparseMatcher
+    public class SparseMatcher : IMatcher
     {
         private ISparseDistance _distance;
         private IReader _reader;
         private ITokenizer _tokenizer;
+        private string _encyclopediaFilePath;
 
-        public SparseMatcher(ISparseDistance distance, IReader reader, ITokenizer tokenizer)
+        public SparseMatcher(ISparseDistance distance, IReader reader, ITokenizer tokenizer, string encyclopediaFilePath)
         {
             _distance = distance;
             _reader = reader;
             _tokenizer = tokenizer;
+            _encyclopediaFilePath = encyclopediaFilePath;
         }
 
-        public string[] SparseAnswer(int nbNeighbours, string questionnaireFilePath, string encyclopediaFilePath, bool train, bool proba)
+        public string[] Answer(int nbNeighbours, string questionnaireFilePath, bool train, bool proba)
         {
-            //Console.Write("\nImport Encyclopedia");
-            IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(encyclopediaFilePath, _reader, _tokenizer);
-
-            //Console.Write("\nImport Questions");
+            IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(_encyclopediaFilePath, _reader, _tokenizer);
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
-
-            //Console.Write("\nTrain KNN");
             SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 5000);
             learner.Train(encyclopedia);
 
@@ -63,10 +60,10 @@ namespace rossum.Machine.Answering
 
                 if (proba)
                 {
-                    int[] candidates = distancesToEncyclopedia.Select((b, i) => 
+                    int[] candidates = distancesToEncyclopedia.Select((b, i) =>
                         b == targetDistance ? i : -1).Where(i => i != -1).ToArray();
-                    results[k] = String.Join(" ", candidates.Select(c => 
-                        IntToAnswers.ToAnswer(c) + ":" + (1f / candidates.Length).ToString().Replace(',','.')));
+                    results[k] = String.Join(" ", candidates.Select(c =>
+                        IntToAnswers.ToAnswer(c) + ":" + (1f / candidates.Length).ToString().Replace(',', '.')));
                 }
                 else
                 {
@@ -77,6 +74,5 @@ namespace rossum.Machine.Answering
 
             return results;
         }
-
     }
 }

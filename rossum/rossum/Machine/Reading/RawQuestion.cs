@@ -18,6 +18,11 @@ namespace rossum.Answering
 
         private bool _negativeQuestion = false;
 
+        public string Answer
+        {
+            get { return _answer; }
+        }
+
         public string Question
         {
             get { return _question; }
@@ -26,6 +31,11 @@ namespace rossum.Answering
         public bool Negated
         {
             get { return _negativeQuestion; }
+        }
+
+        public bool FillInTheGap
+        {
+            get { return _question.Contains(" __________"); }
         }
 
         public RawQuestion(string line, bool containsAnswer)

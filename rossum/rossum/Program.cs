@@ -11,15 +11,14 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(";p Started : " + DateTime.Now.ToString());
+            Console.WriteLine(";w Started : " + DateTime.Now.ToString());
 
-            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
+            string questionFilePath = @"C:\Users\JUJulien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\JUJulien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
                 outFolder = @"";
             bool train = true;
             bool proba = false;
-
-            Submissions.MergeMod(@"C:\Users\JUJulien\Desktop\KAGGLE\Competitions\Rob-The-Robot\submissions\24_10\3");
+            bool markov = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -50,52 +49,56 @@ namespace rossum
                 }
 
                 if (args[i] == "-prob")
-                {
                     proba = true;
-                }
+
+                if (args[i] == "-markov")
+                    markov = true;
+
             }
 
-            Console.WriteLine(proba.ToString());
-
-            
-            for (int order = 0; order < 3; order++)
+            if (markov)
             {
-                for (int lag = 0; lag < 3; lag++)
+                for (int order = 0; order < 3; order++)
                 {
-                    Pipeline.MarkovRun(new StemmingPunctuation(), order, lag, train, proba,
-                        questionFilePath, encyclopediaFilePath, outFolder);
-                    Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, lag, train, proba,
-                        questionFilePath, encyclopediaFilePath, outFolder);
-                    Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, lag, train, proba,
-                        questionFilePath, encyclopediaFilePath, outFolder);
+                    for (int lag = 0; lag < 4; lag++)
+                    {
+                        Pipeline.MarkovRun(new StemmingPunctuationStop3(), order, lag, train, proba,
+                            questionFilePath, encyclopediaFilePath, outFolder);
+                    }
                 }
             }
-            
-            int[] nbNeighboursArray = new int[] { 5, 8, 10, 12 };
-
-            foreach (int nbNeighbours in nbNeighboursArray)
+            else
             {
-                Pipeline.MetricRun(new LowerCasePunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new LowerCasePunctuation(), train), new InformationDiffusion(),
-                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+                int[] nbNeighboursArray = new int[] { 3, 5, 8, 10, 12, 15 };
 
-                Pipeline.MetricRun(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
-                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+                foreach (int nbNeighbours in nbNeighboursArray)
+                {
+                    Pipeline.MetricRun(new StemmingPunctuationStop(), new OrderedCounts(), new WLevenshtein1(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemmingPunctuationStop3(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop3(), train), new InformationDiffusion(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new WLevenshtein1(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
+                    Pipeline.MetricRun(new StemmingPunctuationStop(), new OrderedCounts(), new Levenshtein(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new LowerCasePunctuation(), new Counts(), new NormalizedJaccard(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new OrderedCounts(), new Levenshtein(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemmingPunctuationStop(), new Counts(), new NormalizedJaccard(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+                    /*
+                    Pipeline.MetricRun(new StemmingPunctuationStop(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop(), train), new InformationDiffusion(),
+                          nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),
-                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemmingPunctuationStop3(), train), new InformationDiffusion(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
+                    Pipeline.MetricRun(new StemmingPunctuationStop(), new Counts(), new NormalizedJaccard(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                    Pipeline.MetricRun(new StemmingPunctuationStop3(), new Counts(), new NormalizedJaccard(),
+                        nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);*/
+                }
             }
-
         }
     }
 }

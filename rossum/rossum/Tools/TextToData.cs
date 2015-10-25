@@ -25,7 +25,7 @@ namespace rossum.Tools
             foreach (string line in LinesEnumerator.YieldLines(filePath))
             {
                 linesRead++;
-                if (linesRead == 1) continue;
+                if (linesRead == 1) continue; //header
                 res.Add(line.Split('\t')[colIndex]);
             }
             return res.ToArray();

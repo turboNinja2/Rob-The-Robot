@@ -28,10 +28,14 @@ namespace rossum.Files
             foreach (string filePath in filesPaths)
                 files.Add(LinesEnumerator.YieldLines(filePath).ToArray());
 
-            string outFilePath = submissionFolder + "\\merged.csv";
+            string outFilePath = submissionFolder + "\\merged.csv",
+                outFileProbaPath = submissionFolder + "\\probas.csv";
 
             File.WriteAllText(outFilePath, "id,correctAnswer" + Environment.NewLine);
-            List<string> buffer = new List<string>();
+            File.WriteAllText(outFileProbaPath, "id,correctAnswer" + Environment.NewLine);
+
+            List<string> buffer = new List<string>(),
+                bufferProba = new List<string>();
 
             for (int i = 1; i < files[0].Length; i++)
             {
@@ -41,12 +45,15 @@ namespace rossum.Files
                     answers.Add(TextToData.ParseString(file[i].Split(',')[1]));
                 }
 
-                string most = Histogram<string>.Merge(answers).MostLikelyElement();
+                Histogram<string> merged = Histogram<string>.Merge(answers);
+                string most = merged.MostLikelyElement();
 
                 string id = files[0][i].Split(',')[0];
                 buffer.Add(id + "," + most);
+                bufferProba.Add(id + ',' + merged.ToString());
             }
             File.AppendAllLines(outFilePath, buffer);
+            File.AppendAllLines(outFileProbaPath, bufferProba);
         }
     }
 }

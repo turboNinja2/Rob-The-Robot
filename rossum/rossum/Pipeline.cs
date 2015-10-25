@@ -6,6 +6,7 @@ using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
+using rossum.Answering;
 
 namespace rossum
 {
@@ -18,19 +19,12 @@ namespace rossum
             string summary = "Metric_" + reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString() + "_" + encyclopediaName;
             Console.Write("\n" + summary);
 
-            SparseMatcher robot = new SparseMatcher(dist, reader, tok);
-            string[] answers = robot.SparseAnswer(nbNeighbours, questionFilePath, encyclopediaFilePath, train, proba);
+            SparseMatcher robot = new SparseMatcher(dist, reader, tok, encyclopediaFilePath);
+            string[] answers = robot.Answer(nbNeighbours, questionFilePath, train, proba);
 
             if (train)
             {
-                string[] actualAnswers = TextToData.ImportColumn(questionFilePath, 2);
-                int good = 0;
-                for (int i = 0; i < actualAnswers.Length; i++)
-                    if (actualAnswers[i] == answers[i])
-                        good++;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nScore=" + good * 1f / answers.Length);
-                Console.ResetColor();
+                EvaluateAndPrintScores(questionFilePath, answers);
             }
             else
             {
@@ -54,14 +48,7 @@ namespace rossum
 
             if (train)
             {
-                string[] actualAnswers = TextToData.ImportColumn(questionFilePath, 2);
-                int good = 0;
-                for (int i = 0; i < actualAnswers.Length; i++)
-                    if (actualAnswers[i] == answers[i])
-                        good++;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nScore=" + good * 1f / answers.Length);
-                Console.ResetColor();
+                EvaluateAndPrintScores(questionFilePath, answers);
             }
             else
             {
@@ -70,9 +57,48 @@ namespace rossum
             }
 
             Console.WriteLine();
-
         }
 
+        private static double EvaluateErrors(string questionFilePath, string[] answers)
+        {
+            string[] actualAnswers = TextToData.ImportColumn(questionFilePath, 2);
+            int good = 0;
+            for (int i = 0; i < actualAnswers.Length; i++)
+                if (actualAnswers[i] == answers[i])
+                    good++;
+            return good * 1f / answers.Length;
+        }
 
+        private static double EvaluateGapErrors(string questionFilePath, string[] answers)
+        {
+            RawQuestion[] questions = QuestionnaireReader.Import(questionFilePath, true);
+
+            int good = 0,
+                gaps = 0;
+            for (int i = 0; i < questions.Length; i++)
+            {
+                if (questions[i].FillInTheGap)
+                {
+                    gaps++;
+                    if (questions[i].Answer == answers[i])
+                        good++;
+                }
+            }
+            return good * 1f / gaps;
+        }
+
+        private static void EvaluateAndPrintScores(string questionFilePath, string[] answers)
+        {
+            double score = EvaluateErrors(questionFilePath, answers);
+
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("\nScore=" + score.ToString("0.##%"));
+            Console.ResetColor();
+
+            score = EvaluateGapErrors(questionFilePath, answers);
+            Console.ForegroundColor = ConsoleColor.DarkBlue;
+            Console.Write("\nGap  =" + score.ToString("0.##%"));
+            Console.ResetColor();
+        }
     }
 }

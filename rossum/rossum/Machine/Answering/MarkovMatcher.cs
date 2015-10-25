@@ -9,7 +9,7 @@ using rossum.Tools;
 
 namespace rossum.Machine.Answering
 {
-    public class MarkovMatcher
+    public class MarkovMatcher : IMatcher
     {
         private SparseMarkovChain<string> _smc = new SparseMarkovChain<string>();
         private IReader _reader;
@@ -41,6 +41,20 @@ namespace rossum.Machine.Answering
                     Console.Write('.');
                 }
             }
+        }
+
+        public string[] Answer(string questionnaireFilePath, bool train, bool proba)
+        {
+            RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
+            string[] results = new string[questions.Length];
+
+            for (int k = 0; k < questions.Length; k++)
+            {
+                if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
+                    Console.Write('.');
+                results[k] = AnswerOneQuestion(questions[k], proba);
+            }
+            return results;
         }
 
         private static string[] Stack(string[] splittedLine, int order, int lag)
@@ -77,7 +91,7 @@ namespace rossum.Machine.Answering
 
             if (proba)
             {
-                int[] candidates = likelihoods.Select((b, i) => 
+                int[] candidates = likelihoods.Select((b, i) =>
                     b == targetLikelihood ? i : -1).Where(i => i != -1).ToArray();
                 return String.Join(" ", candidates.Select(c =>
                     IntToAnswers.ToAnswer(c) + ":" + (1f / candidates.Length).ToString().Replace(',', '.')));
@@ -90,18 +104,5 @@ namespace rossum.Machine.Answering
 
         }
 
-        public string[] Answer(string questionnaireFilePath, bool train, bool proba)
-        {
-            RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
-            string[] results = new string[questions.Length];
-
-            for (int k = 0; k < questions.Length; k++)
-            {
-                if ((k % DisplaySettings.PrintProgressEveryLine) == 0)
-                    Console.Write('.');
-                results[k] = AnswerOneQuestion(questions[k], proba);
-            }
-            return results;
-        }
     }
 }
