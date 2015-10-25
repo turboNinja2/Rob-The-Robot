@@ -7,3 +7,4 @@ def hash32(value):
      
 model = word2vec.Word2Vec(sentences, size=100, window=5, min_count=5, workers=4, seed=1, hashfxn=hash32)
 
+model.save('.//CK12.w2v')
