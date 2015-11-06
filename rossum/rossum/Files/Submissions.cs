@@ -42,7 +42,9 @@ namespace rossum.Files
                 List<Histogram<string>> answers = new List<Histogram<string>>();
                 foreach (string[] file in files)
                 {
-                    answers.Add(TextToData.ParseString(file[i].Split(',')[1]));
+                    string currentDic = file[i].Split(',')[1];
+                    if (currentDic.Length > 0)
+                        answers.Add(TextToData.ParseString(currentDic));
                 }
 
                 Histogram<string> merged = Histogram<string>.Merge(answers);

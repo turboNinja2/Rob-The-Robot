@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
+﻿using System.Text.RegularExpressions;
 namespace rossum.Answering
 {
     /// <summary>
@@ -9,6 +7,9 @@ namespace rossum.Answering
     /// </summary>
     public class RawQuestion
     {
+        private static Regex _fillInTheGap = new Regex("[_]+");
+        private static Regex _isNot = new Regex("[Ww]hich .* is not");
+
         private string _rawText;
         private string _question;
         private string _answerA;
@@ -37,7 +38,7 @@ namespace rossum.Answering
 
         public bool FillInTheGap
         {
-            get { return _question.Contains(" __________"); }
+            get { return _fillInTheGap.IsMatch(_question); }
         }
 
         public RawQuestion(string line, bool containsAnswer)
@@ -63,7 +64,7 @@ namespace rossum.Answering
                 _answerD = splitted_line[5];
             }
 
-            if (_question.Contains("except"))
+            if (_question.Contains("except") || _isNot.IsMatch(_question))
                 _negativeQuestion = true;
 
         }
@@ -71,13 +72,12 @@ namespace rossum.Answering
         public string[] GetCombinations()
         {
 
-            if (_question.Contains(" __________")) // fill in the gap type of question
+            if (FillInTheGap) // fill in the gap type of question
             {
-                return new string[4]{_question.Replace("__________",_answerA),
-                _question.Replace("__________",_answerB),
-                _question.Replace("__________",_answerC),
-                _question.Replace("__________",_answerD)};
-
+                return new string[4]{_fillInTheGap.Replace(_question,_answerA),
+                _fillInTheGap.Replace(_question,_answerB),
+                _fillInTheGap.Replace(_question,_answerC),
+                _fillInTheGap.Replace(_question,_answerD)};
             }
             else
             {
@@ -91,19 +91,16 @@ namespace rossum.Answering
 
         public string[] GetMarkovCombinations()
         {
-            Regex whichIs = new Regex(@"[Ww]hich ([A-Za-z0-9\-]+) is ([A-Za-z0-9\-]+)");
-            Match match = whichIs.Match(_question);
-
-            if (_question.Contains(" __________")) // EASIEST type to detect : fill in the gap type of question
+            if (FillInTheGap) // EASIEST type to detect : fill in the gap type of question
             {
-                return new string[4]{_question.Replace("__________",_answerA),
-                _question.Replace("__________",_answerB),
-                _question.Replace("__________",_answerC),
-                _question.Replace("__________",_answerD)};
+                return new string[]{_fillInTheGap.Replace(_question,_answerA),
+                _fillInTheGap.Replace(_question,_answerB),
+                _fillInTheGap.Replace(_question,_answerC),
+                _fillInTheGap.Replace(_question,_answerD)};
             }
             else if (_question.Contains("Which of the following ")) // EASIEST type to detect : fill in the gap type of question
             {
-                string[] res = new string[4]{_question.Replace("Which of the following",_answerA),
+                string[] res = new string[]{_question.Replace("Which of the following",_answerA),
                 _question.Replace("Which of the following",_answerB),
                 _question.Replace("Which of the following",_answerC),
                 _question.Replace("Which of the following",_answerD)};

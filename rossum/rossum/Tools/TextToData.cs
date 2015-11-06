@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using rossum.Files;
-using System;
 using rossum.Machine.Learning;
 
 namespace rossum.Tools
 {
     public static class TextToData
     {
-
         public static Histogram<string> ParseString(string line)
         {
             string[] splitted = line.Split(' ');

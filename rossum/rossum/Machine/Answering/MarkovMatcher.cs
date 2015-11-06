@@ -14,13 +14,11 @@ namespace rossum.Machine.Answering
         private SparseMarkovChain<string> _smc = new SparseMarkovChain<string>();
         private IReader _reader;
         private int _order;
-        private int _lag;
 
-        public MarkovMatcher(IReader reader, int order, int lag)
+        public MarkovMatcher(IReader reader, int order)
         {
             _reader = reader;
             _order = order;
-            _lag = lag;
         }
 
         public void Learn(string inputFilePath)
@@ -32,7 +30,9 @@ namespace rossum.Machine.Answering
                 string readLine = _reader.Read(rawLine);
                 string[] splitted = readLine.Split(' ').ToArray();
                 if (splitted.Length < _order) continue;
-                string[] stackedLine = Stack(splitted, _order, _lag);
+                
+                string[] stackedLine = Stack(splitted, _order);
+                
                 for (int i = 1; i < stackedLine.Length; i++)
                     if( stackedLine[i - 1]!= null && stackedLine[i] != null)
                         _smc.AddTransition(stackedLine[i - 1], stackedLine[i]);
@@ -57,16 +57,18 @@ namespace rossum.Machine.Answering
             return results;
         }
 
-        private static string[] Stack(string[] splittedLine, int order, int lag)
+        private static string[] Stack(string[] splittedLine, int order)
         {
             string[] res = new string[splittedLine.Length - order];
-            for (int i = order + lag; i < splittedLine.Length; i++)
+            
+            for (int i = order; i < splittedLine.Length; i++)
             {
                 string stamp = splittedLine[i];
                 for (int k = 1; k < order; k++)
-                    stamp = splittedLine[i - k - lag] + " " + stamp;
+                    stamp = splittedLine[i - k] + " " + stamp;
                 res[i - order] = stamp;
             }
+            
             return res;
         }
 
@@ -79,7 +81,7 @@ namespace rossum.Machine.Answering
             {
                 string readQuestion = _reader.Read(proposals[i]);
                 string[] splittedQuestion = readQuestion.Split(' ').ToArray();
-                string[] stackedQuestion = Stack(splittedQuestion, _order, _lag);
+                string[] stackedQuestion = Stack(splittedQuestion, _order);
                 likelihoods[i] = _smc.LengthNormalizedLogLikelihood(stackedQuestion);
             }
 
@@ -101,7 +103,6 @@ namespace rossum.Machine.Answering
                 int bestcandidate = Array.FindIndex(likelihoods, d => d == targetLikelihood);
                 return IntToAnswers.ToAnswer(bestcandidate);
             }
-
         }
 
     }

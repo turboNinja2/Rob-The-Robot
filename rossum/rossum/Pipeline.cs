@@ -35,14 +35,14 @@ namespace rossum
             Console.WriteLine();
         }
 
-        public static void MarkovRun(IReader reader, int order, int lag, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
+        public static void MarkovRun(IReader reader, int order, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
             string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
 
-            string summary = "Markov_" + reader.GetType().Name + "_" + order.ToString() + "_" + lag.ToString() + "_" + encyclopediaName;
+            string summary = "Markov_" + reader.GetType().Name + "_" + order.ToString() + "_" + encyclopediaName;
             Console.Write("\n" + summary);
 
-            MarkovMatcher mm = new MarkovMatcher(reader, order, lag);
+            MarkovMatcher mm = new MarkovMatcher(reader, order);
             mm.Learn(encyclopediaFilePath);
             string[] answers = mm.Answer(questionFilePath, train, proba);
 
