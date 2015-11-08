@@ -14,8 +14,8 @@ namespace rossum
             Console.WriteLine(";w Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\CK12.ency",
-                outFolder = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\submissions\";
+                encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\WikiDump\Wiki.ency",
+                outFolder = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\submissions\Markov2\";
             bool train = true;
             bool proba = false;
             bool markov = true;
@@ -72,9 +72,10 @@ namespace rossum
                     Pipeline.MarkovRun(new StemmingPunctuationStop4(), order, train, proba,
                             questionFilePath, encyclopediaFilePath, outFolder);
                 }
-
-                Submissions.MergeMod(outFolder);
             }
+
+            //Submissions.MergeMod(outFolder);
+
 
             int[] nbNeighboursArray = new int[] { 3, 5, 8, 10, 12, 15 };
 

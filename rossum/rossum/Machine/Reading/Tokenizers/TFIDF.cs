@@ -66,13 +66,16 @@ namespace rossum.Machine.Reading.Tokenizers
             Dictionary<string, double> res = new Dictionary<string, double>();
 
             string[] splittedLine = line.Split(' ');
-            
-            foreach (string elt in splittedLine)
-                if (res.ContainsKey(elt))
-                    res[elt] += _idf[elt];
-                else
-                    res.Add(elt, _idf[elt]);
 
+            foreach (string elt in splittedLine)
+            {
+                double idf = 0;
+                _idf.TryGetValue(elt, out idf);
+                if (res.ContainsKey(elt))
+                    res[elt] += idf;
+                else
+                    res.Add(elt, idf);
+            }
             return res;
         }
     }
