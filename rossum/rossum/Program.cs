@@ -15,12 +15,12 @@ namespace rossum
 
             string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\All.ency",
-                outFolder = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\submissions\Markov2\",
+                outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\12\",
                 synonymsFilePath = "";
 
             bool train = true;
             bool proba = false;
-            bool markov = true;
+            bool markov = false;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -61,9 +61,10 @@ namespace rossum
                     synonymsFilePath = args[i+1];
             }
 
+
             if (markov)
             {
-                for (int epochs = 1; epochs < 5; epochs++)
+                for (int epochs = 1; epochs < 4; epochs++)
                 {
                     for (int order = 0; order < 3; order += 2)
                     {
@@ -77,8 +78,6 @@ namespace rossum
                 }
             }
 
-            //Submissions.MergeMod(outFolder);
-
             int[] nbNeighboursArray = new int[] { 3, 5, 8, 10, 12, 15 };
 
             foreach (int nbNeighbours in nbNeighboursArray)
@@ -89,7 +88,7 @@ namespace rossum
                 Pipeline.MetricRun(new SQLSW(), new StemPunctuation(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new GoogleSW(), new StemPunctuation(), new Counts(), new Tanimoto(),
+                Pipeline.MetricRun(new ElargedSW(), new StemPunctuation(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
                 Pipeline.MetricRun(new GoogleSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new GoogleSW(), new StemPunctuation(), train), new InformationDiffusion(),
