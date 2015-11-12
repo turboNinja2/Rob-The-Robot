@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using rossum.Files;
+using rossum.Machine.Reading.Stopwords;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Settings;
@@ -9,14 +10,14 @@ namespace rossum.Reading
 {
     public static class EncyclopediaReader
     {
-        public static IDictionary<string, double>[] ImportSparse(string filePath, IReader reader, ITokenizer tokenizer)
+        public static IDictionary<string, double>[] ImportSparse(string filePath, IReworder reworder, IReader reader, ITokenizer tokenizer)
         {
             List<IDictionary<string, double>> encyclopedia = new List<IDictionary<string, double>>();
             int linesRead = 0;
 
             foreach (string line in LinesEnumerator.YieldLines(filePath))
             {
-                IDictionary<string, double> res = tokenizer.Tokenize(reader.Read(line));
+                IDictionary<string, double> res = tokenizer.Tokenize(reader.Read(reworder.Map(line)));
 
                 encyclopedia.Add(res);
                 linesRead++;

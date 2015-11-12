@@ -1,11 +1,9 @@
 ﻿using System;
+using rossum.Files;
 using rossum.Machine.Learning.SparseDistances;
+using rossum.Machine.Reading.Stopwords;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
-using rossum.Files;
-using rossum.Machine.Answering;
-using rossum.Machine.Reading.Readers.Stopwords;
-using rossum.Machine.Reading.Stopwords;
 
 namespace rossum
 {
@@ -13,7 +11,7 @@ namespace rossum
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(";w Started : " + DateTime.Now.ToString());
+            Console.WriteLine(";r Started : " + DateTime.Now.ToString());
 
             string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
                 encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\All.ency",
@@ -63,7 +61,7 @@ namespace rossum
             {
                 for (int epochs = 1; epochs < 4; epochs++)
                 {
-                    for (int order = 0; order < 3; order++)
+                    for (int order = 0; order < 3; order += 2)
                     {
                         Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, train, proba,
                             questionFilePath, encyclopediaFilePath, outFolder);
@@ -72,6 +70,9 @@ namespace rossum
                             questionFilePath, encyclopediaFilePath, outFolder);
 
                         Pipeline.MarkovRun(new StemPunctuation(), new ElargedSW(), order, epochs, train, proba,
+                            questionFilePath, encyclopediaFilePath, outFolder);
+
+                        Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, train, proba,
                             questionFilePath, encyclopediaFilePath, outFolder);
                     }
                 }
@@ -83,10 +84,19 @@ namespace rossum
 
             foreach (int nbNeighbours in nbNeighboursArray)
             {
-                Pipeline.MetricRun(new StemPunctuation(), new Counts(), new NormalizedJaccard(),
+                Pipeline.MetricRun(new GoogleSW(), new StemPunctuation(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-                Pipeline.MetricRun(new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new StemPunctuation(), train), new InformationDiffusion(),
+                Pipeline.MetricRun(new SQLSW(), new StemPunctuation(), new Counts(), new NormalizedJaccard(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new GoogleSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new GoogleSW(), new StemPunctuation(), train), new InformationDiffusion(),
+                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new SQLSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new SQLSW(), new StemPunctuation(), train), new InformationDiffusion(),
+                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new ElargedSW(), new StemPunctuationY(), new TFIDF(encyclopediaFilePath, questionFilePath, new ElargedSW(), new StemPunctuationY(), train), new InformationDiffusion(),
                       nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
             }

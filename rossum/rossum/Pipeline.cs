@@ -4,23 +4,24 @@ using rossum.Answering;
 using rossum.Files;
 using rossum.Machine.Answering;
 using rossum.Machine.Learning.SparseDistances;
+using rossum.Machine.Reading.Stopwords;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
-using rossum.Machine.Reading.Stopwords;
 
 namespace rossum
 {
     public static class Pipeline
     {
-        public static void MetricRun(IReader reader, ITokenizer tok, ISparseDistance dist, int nbNeighbours, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
+        public static void MetricRun(IReworder reworder, IReader reader, ITokenizer tok, ISparseDistance dist, int nbNeighbours, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
             string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
 
-            string summary = "Metric_" + reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString() + "_" + encyclopediaName;
+            string summary = "Metric_" + reworder.GetType().Name + "_" +
+                reader.GetType().Name + "_" + tok.GetType().Name + "_" + dist.GetType().Name + "_" + nbNeighbours.ToString() + "_" + encyclopediaName;
             Console.Write("\n" + summary);
 
-            SparseMatcher robot = new SparseMatcher(dist, reader, tok, encyclopediaFilePath);
+            SparseMatcher robot = new SparseMatcher(dist, reworder, reader, tok, encyclopediaFilePath);
             string[] answers = robot.Answer(nbNeighbours, questionFilePath, train, proba);
 
             if (train)

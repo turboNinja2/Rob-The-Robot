@@ -4,6 +4,7 @@ using System.Linq;
 using rossum.Answering;
 using rossum.Machine.Learning;
 using rossum.Machine.Learning.SparseDistances;
+using rossum.Machine.Reading.Stopwords;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading;
 using rossum.Reading.Readers;
@@ -18,20 +19,22 @@ namespace rossum.Machine.Answering
         private ISparseDistance _distance;
         private IReader _reader;
         private ITokenizer _tokenizer;
+        private IReworder _reworder;
         private string _encyclopediaFilePath;
         #endregion
 
-        public SparseMatcher(ISparseDistance distance, IReader reader, ITokenizer tokenizer, string encyclopediaFilePath)
+        public SparseMatcher(ISparseDistance distance, IReworder reworder, IReader reader, ITokenizer tokenizer, string encyclopediaFilePath)
         {
             _distance = distance;
             _reader = reader;
+            _reworder = reworder;
             _tokenizer = tokenizer;
             _encyclopediaFilePath = encyclopediaFilePath;
         }
 
         public string[] Answer(int nbNeighbours, string questionnaireFilePath, bool train, bool proba)
         {
-            IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(_encyclopediaFilePath, _reader, _tokenizer);
+            IDictionary<string, double>[] encyclopedia = EncyclopediaReader.ImportSparse(_encyclopediaFilePath, _reworder, _reader, _tokenizer);
             RawQuestion[] questions = QuestionnaireReader.Import(questionnaireFilePath, train);
             SparseKNN<string> learner = new SparseKNN<string>(_distance.Value, nbNeighbours, 5000);
             learner.Train(encyclopedia);
@@ -51,7 +54,7 @@ namespace rossum.Machine.Answering
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
-                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(_reader.Read(proposals[i]));
+                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(_reader.Read(_reworder.Map(proposals[i])));
                     distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 

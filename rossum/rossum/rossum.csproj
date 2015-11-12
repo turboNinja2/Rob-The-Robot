@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="Machine\Reading\RawQuestion.cs" />
     <Compile Include="Files\LinesEnumerator.cs" />
+    <Compile Include="Machine\Reading\Readers\StemPunctuationY.cs" />
     <Compile Include="Machine\Reading\Readers\StemPunctuationNumbers.cs" />
     <Compile Include="Machine\Reading\Readers\StemPunctuation.cs" />
     <Compile Include="Machine\Reading\Readers\Stemmers\Among.cs" />

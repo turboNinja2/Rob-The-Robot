@@ -5,6 +5,7 @@ using rossum.Answering;
 using rossum.Files;
 using rossum.Reading.Readers;
 using rossum.Settings;
+using rossum.Machine.Reading.Stopwords;
 
 namespace rossum.Machine.Reading.Tokenizers
 {
@@ -12,14 +13,14 @@ namespace rossum.Machine.Reading.Tokenizers
     {
         Dictionary<string, double> _idf = new Dictionary<string, double>();
 
-        public TFIDF(string filePath1, string filePath2, IReader reader, bool train)
+        public TFIDF(string filePath1, string filePath2, IReworder reworder, IReader reader, bool train)
         {
             Console.Write("Preparing IDF");
             int linesRead = 0;
 
             foreach (string line in LinesEnumerator.YieldLines(filePath1))
             {
-                List<string> res = reader.Read(line).Split(' ').ToList();
+                List<string> res = reader.Read(reworder.Map(line)).Split(' ').ToList();
 
                 foreach (string element in res.Distinct())
                 {
@@ -40,13 +41,13 @@ namespace rossum.Machine.Reading.Tokenizers
                 RawQuestion rq = new RawQuestion(line, train);
                 string[] combinations = rq.GetCombinations();
                 for (int i = 0; i < combinations.Length; i++)
-                    foreach (string element in reader.Read(combinations[i]).Split(' ').Distinct())
+                    foreach (string element in reader.Read(reworder.Map(combinations[i])).Split(' ').Distinct())
                     {
                         if (_idf.ContainsKey(element))
                             _idf[element]++;
                         else
                             _idf.Add(element, 1);
-                }
+                    }
                 if ((linesRead % DisplaySettings.PrintProgressEveryLine) == 0)
                     Console.Write('.');
 
