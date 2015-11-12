@@ -4,7 +4,7 @@ using System.Linq;
 using rossum.Answering;
 using rossum.Machine.Learning;
 using rossum.Machine.Learning.SparseDistances;
-using rossum.Machine.Reading.Stopwords;
+using rossum.Machine.Reading.Reworders;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading;
 using rossum.Reading.Readers;

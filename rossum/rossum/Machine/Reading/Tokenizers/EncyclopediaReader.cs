@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using rossum.Files;
-using rossum.Machine.Reading.Stopwords;
+using rossum.Machine.Reading.Reworders;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Settings;

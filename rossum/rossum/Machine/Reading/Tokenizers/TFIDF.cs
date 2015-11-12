@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using rossum.Answering;
 using rossum.Files;
+using rossum.Machine.Reading.Reworders;
 using rossum.Reading.Readers;
 using rossum.Settings;
-using rossum.Machine.Reading.Stopwords;
 
 namespace rossum.Machine.Reading.Tokenizers
 {

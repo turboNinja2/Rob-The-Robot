@@ -7,7 +7,7 @@ using rossum.Machine.Learning.Markov;
 using rossum.Reading.Readers;
 using rossum.Settings;
 using rossum.Tools;
-using rossum.Machine.Reading.Stopwords;
+using rossum.Machine.Reading.Reworders;
 
 namespace rossum.Machine.Answering
 {
@@ -19,20 +19,23 @@ namespace rossum.Machine.Answering
         private IReworder _reworder;
         private int _order;
         private int _epochs;
+        private Random _rnd = new Random(1);
+        private bool _randomizedRestack;
         #endregion
 
-        public MarkovMatcher(IReader reader, IReworder reworder, int order, int epochs)
+        public MarkovMatcher(IReader reader, IReworder reworder, int order, int epochs, bool randomizedRestack)
         {
             _reader = reader;
             _order = order;
             _epochs = epochs;
             _reworder = reworder;
+            _randomizedRestack = randomizedRestack;
         }
 
         public void Learn(string inputFilePath)
         {
             int linesRead = 0;
-            
+
             foreach (string rawLine in LinesEnumerator.YieldLines(inputFilePath))
             {
                 linesRead++;
@@ -46,6 +49,9 @@ namespace rossum.Machine.Answering
                 if (splitted.Length < _order) continue;
 
                 string[] stackedLine = Stack(splitted, _order);
+
+                if (_randomizedRestack)
+                    stackedLine = SmartIndexes.Merge<string>(stackedLine, stackedLine.Where(c => _rnd.NextDouble() > 0.5).ToArray());
 
                 for (int epoch = 0; epoch < _epochs; epoch++)
                     for (int i = 1; i < stackedLine.Length; i++)
@@ -126,5 +132,6 @@ namespace rossum.Machine.Answering
             }
             return intm;
         }
+
     }
 }

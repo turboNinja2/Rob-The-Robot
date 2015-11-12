@@ -4,7 +4,7 @@ using rossum.Answering;
 using rossum.Files;
 using rossum.Machine.Answering;
 using rossum.Machine.Learning.SparseDistances;
-using rossum.Machine.Reading.Stopwords;
+using rossum.Machine.Reading.Reworders;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
@@ -38,15 +38,17 @@ namespace rossum
         }
 
         public static void MarkovRun(IReader reader, IReworder reworder,
-            int order, int repeat, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
+            int order, int repeat, bool randomizedRestack,
+            bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
             string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
 
             string summary = "Markov_" + reworder.GetType().Name + "_" +
-                reader.GetType().Name + "_" + order.ToString() + "_" + repeat.ToString() + "_" + encyclopediaName;
+                reader.GetType().Name + "_" + order.ToString() + "_" + repeat.ToString() + "_" + randomizedRestack.ToString() + "_" +
+                encyclopediaName;
             Console.Write("\n" + summary);
 
-            MarkovMatcher mm = new MarkovMatcher(reader, reworder, order, repeat);
+            MarkovMatcher mm = new MarkovMatcher(reader, reworder, order, repeat, randomizedRestack);
             mm.Learn(encyclopediaFilePath);
             string[] answers = mm.Answer(questionFilePath, train, proba);
 

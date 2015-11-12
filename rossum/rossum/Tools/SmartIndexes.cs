@@ -72,7 +72,26 @@ namespace rossum.Tools
             return result;
         }
 
+        public static T[] Merge<T>(T[] a1, T[] a2)
+        {
+            T[] res = new T[a1.Length + a2.Length];
+            for (int i = 0; i < a1.Length; i++)
+                res[i] = a1[i];
+            for (int i = 0; i < a2.Length; i++)
+                res[a1.Length + i] = a2[i];
+            return res;
+        }
 
+        public static T[] Subselect<T>(T[] a, int freq)
+        {
+            int nElement = a.Length / freq;
+            T[] res = new T[nElement];
+            for (int i = 0; i < nElement; i++)
+            {
+                res[i] = a[freq * i];
+            }
+            return res;
+        }
     }
 
 }

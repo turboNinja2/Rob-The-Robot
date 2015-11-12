@@ -1,13 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Iveonik.Stemmers
 {
-
     internal class Among
     {
-
         public readonly int s_size; /* search string */
         public readonly char[] s; /* search string */
         public readonly int substring_i; /* index to longest matching substring */
