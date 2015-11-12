@@ -6,7 +6,7 @@ using rossum.Machine.Reading.Readers.Stopwords;
 
 namespace rossum.Reading.Readers
 {
-    public class StemmingPunctuationStop3 : IReader
+    public class StemPunctuationStop : IReader
     {
         IStemmer englishStemmer = new EnglishStemmer();
 
@@ -14,7 +14,7 @@ namespace rossum.Reading.Readers
         {
             line = StringHelper.RemovePunctuation(line);
 
-            ElargedStopWords sw = new ElargedStopWords();
+            GoogleStopWords sw = new GoogleStopWords();
 
             line = String.Join(" ", line.Split(' ').Where(c => !sw.Contains(c)).Select(c => englishStemmer.Stem(c)));
             return line;

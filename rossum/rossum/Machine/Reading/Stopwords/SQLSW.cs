@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace rossum.Machine.Reading.Readers.Stopwords
+namespace rossum.Machine.Reading.Stopwords
 {
-    public class SQLStopWords
+    public class SQLSW : IReworder
     {
         string[] _data = ("a’s able about above according accordingly across actually after afterwards again against ain’t all allow allows almost alone along already " +
             "also although always am among amongst an and another any anybody anyhow anyone anything anyway anyways anywhere apart appear appreciate appropriate are aren’t " +
@@ -27,7 +27,7 @@ namespace rossum.Machine.Reading.Readers.Stopwords
         
         HashSet<string> _res = new HashSet<string>();
 
-        public SQLStopWords()
+        public SQLSW()
         {
             foreach (string elt in _data)
                 _res.Add(elt);
@@ -41,6 +41,14 @@ namespace rossum.Machine.Reading.Readers.Stopwords
         public bool Contains(string elt)
         {
             return _res.Contains(elt);
+        }
+
+        public string Map(string elt)
+        {
+            if (_res.Contains(elt))
+                return "";
+            else
+                return elt;
         }
     }
 }

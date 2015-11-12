@@ -14,10 +14,12 @@ namespace rossum.Machine.Answering
 {
     public class SparseMatcher : IMatcher
     {
+        #region Private attributes
         private ISparseDistance _distance;
         private IReader _reader;
         private ITokenizer _tokenizer;
         private string _encyclopediaFilePath;
+        #endregion
 
         public SparseMatcher(ISparseDistance distance, IReader reader, ITokenizer tokenizer, string encyclopediaFilePath)
         {

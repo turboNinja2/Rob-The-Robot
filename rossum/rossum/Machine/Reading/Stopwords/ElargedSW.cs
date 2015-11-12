@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace rossum.Machine.Reading.Readers.Stopwords
+namespace rossum.Machine.Reading.Stopwords
 {
-    public class DefaultStopWords
+    public class ElargedSW : IReworder
     {
         string[] _data = ("a about above after again against all am an and any are aren't as at be because been before being below between both but by can't " +
             "cannot could couldn't did didn't do does doesn't doing don't down during each few for from further had hadn't has hasn't have haven't having he he'd " +
@@ -10,10 +10,11 @@ namespace rossum.Machine.Reading.Readers.Stopwords
         "my myself no nor not of off on once only or other ought our ours ourselves out over own same shan't she she'd she'll she's should shouldn't so some such than " +
         "that that's the their theirs them themselves then there there's these they they'd they'll they're they've this those through to too under until up very was wasn't "+
         "we we'd we'll we're we've were weren't what what's when when's where where's which while who who's whom why why's with won't would wouldn't you you'd you'll you're "+
-        "you've your yours yourself yourselves").Split(' ');
+        "you've your yours yourself yourselves " +
+        "best way proposition except true false following can").Split(' ');
         HashSet<string> _res = new HashSet<string>();
 
-        public DefaultStopWords()
+        public ElargedSW()
         {
             foreach (string elt in _data)
                 _res.Add(elt);
@@ -27,6 +28,14 @@ namespace rossum.Machine.Reading.Readers.Stopwords
         public bool Contains(string elt)
         {
             return _res.Contains(elt);
+        }
+
+        public string Map(string elt)
+        {
+            if (_res.Contains(elt))
+                return "";
+            else
+                return elt;
         }
     }
 }

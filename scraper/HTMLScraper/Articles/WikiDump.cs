@@ -30,9 +30,13 @@ namespace HTMLScraper.Articles
                         {
                             xmlArticle.LoadXml(rawArticle);
                             string innerText = xmlArticle.SelectSingleNode("page//text").InnerText;
+
+                            if (!Relevant(innerText)) continue;
+
+                            innerText = RemoveAfterSubstring(innerText, "==See also==");
+
                             innerText = CleanArticle(innerText);
                             if (innerText.StartsWith("#REDIRECT")) continue;
-                            if (!Relevant(innerText)) continue;
 
 
                             File.AppendAllText(outFilePath, innerText + Environment.NewLine);
@@ -66,10 +70,25 @@ namespace HTMLScraper.Articles
             if (lowerCaseArticle.Contains("category:chemis")) return true;
             if (lowerCaseArticle.Contains("category:gas")) return true;
 
+            if (lowerCaseArticle.Contains("category:climat")) return true;
+
+            if (lowerCaseArticle.Contains("category:astro")) return true;
+
             if (lowerCaseArticle.Contains("category:mecha")) return true;
 
             return false;
 
+        }
+
+
+        public static string RemoveAfterSubstring(string text, string substring)
+        {
+            int resultIndex = text.IndexOf(substring);
+            if (resultIndex != -1)
+            {
+                text = text.Substring(0, resultIndex);
+            }
+            return text;
         }
 
         public static string CleanArticle(string article)
@@ -79,15 +98,21 @@ namespace HTMLScraper.Articles
 
             Regex roundBracket = new Regex("{{.*?}}");
             article = roundBracket.Replace(article, String.Empty);
-
+            
             Regex section = new Regex("==.*?==");
             article = section.Replace(article, Environment.NewLine);
+
+            Regex quotes = new Regex("ref&gt.*ref&gt");
+            article = quotes.Replace(article, " ");
 
             article = article.Replace("[", "");
             article = article.Replace("]", "");
             article = article.Replace("'", "");
             article = article.Replace("=", " ");
             article = article.Replace("*", " ");
+            article = article.Replace("|", " ");
+            article = article.Replace(":", " ");
+            article = article.Replace(";", " ");
 
             Regex multipleSpaces = new Regex("[ ]+");
             article = multipleSpaces.Replace(article, " ");

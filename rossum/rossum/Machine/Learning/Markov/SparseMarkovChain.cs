@@ -14,6 +14,11 @@ namespace rossum.Machine.Learning.Markov
         private Dictionary<T, int> _countEltLeaving = new Dictionary<T, int>();
         private int _size = 0;
 
+        public int Count
+        {
+            get { return _sparseMarkovChain.Count; }
+        }
+
         /// <summary>
         /// Probability to go from the state p1 to p2.
         /// </summary>

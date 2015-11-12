@@ -7,6 +7,7 @@ using rossum.Machine.Learning.SparseDistances;
 using rossum.Machine.Reading.Tokenizers;
 using rossum.Reading.Readers;
 using rossum.Tools;
+using rossum.Machine.Reading.Stopwords;
 
 namespace rossum
 {
@@ -35,14 +36,16 @@ namespace rossum
             Console.WriteLine();
         }
 
-        public static void MarkovRun(IReader reader, int order, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
+        public static void MarkovRun(IReader reader, IReworder reworder,
+            int order, int repeat, bool train, bool proba, string questionFilePath, string encyclopediaFilePath, string outFolder)
         {
             string encyclopediaName = Path.GetFileNameWithoutExtension(encyclopediaFilePath);
 
-            string summary = "Markov_" + reader.GetType().Name + "_" + order.ToString() + "_" + encyclopediaName;
+            string summary = "Markov_" + reworder.GetType().Name + "_" +
+                reader.GetType().Name + "_" + order.ToString() + "_" + repeat.ToString() + "_" + encyclopediaName;
             Console.Write("\n" + summary);
 
-            MarkovMatcher mm = new MarkovMatcher(reader, order);
+            MarkovMatcher mm = new MarkovMatcher(reader, reworder, order, repeat);
             mm.Learn(encyclopediaFilePath);
             string[] answers = mm.Answer(questionFilePath, train, proba);
 
@@ -90,15 +93,15 @@ namespace rossum
         private static void EvaluateAndPrintScores(string questionFilePath, string[] answers)
         {
             double score = EvaluateErrors(questionFilePath, answers);
-
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write("\nScore=" + score.ToString("0.##%"));
             Console.ResetColor();
 
             score = EvaluateGapErrors(questionFilePath, answers);
             Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.Write("\nGap  =" + score.ToString("0.##%"));
+            Console.Write("\nScore=" + score.ToString("0.##%"));
             Console.ResetColor();
+
         }
     }
 }

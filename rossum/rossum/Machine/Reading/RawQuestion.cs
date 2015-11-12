@@ -1,4 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using System.Linq;
+using System.Collections.Generic;
+
 namespace rossum.Answering
 {
     /// <summary>
@@ -98,7 +101,7 @@ namespace rossum.Answering
                 _fillInTheGap.Replace(_question,_answerC),
                 _fillInTheGap.Replace(_question,_answerD)};
             }
-            else if (_question.Contains("Which of the following ")) // EASIEST type to detect : fill in the gap type of question
+            else if (_question.Contains("Which of the following "))
             {
                 string[] res = new string[]{_question.Replace("Which of the following",_answerA),
                 _question.Replace("Which of the following",_answerB),
@@ -106,12 +109,46 @@ namespace rossum.Answering
                 _question.Replace("Which of the following",_answerD)};
                 return res;
             }
+            else if (_question.Contains("What is "))
+            {
+                string[] res = new string[]{
+                    _question.Replace("What is",_answerA + " is"),
+                    _question.Replace("What is",_answerB + " is"),
+                    _question.Replace("What is",_answerC + " is"),
+                    _question.Replace("What is",_answerD + " is"),
+                    _question + " " + _answerA,
+                    _question + " " + _answerB,
+                    _question + " " + _answerC,
+                    _question + " " + _answerD};
+                return res;
+            }
             else
             {
+                string[] questionArray = _question.Split(' ').ToArray();
+                string[] proposals = new string[4 * questionArray.Length];
+
+                for (int i = 0; i < questionArray.Length; i++)
+                {
+                    questionArray = _question.Split(' ').ToArray();
+
+                    questionArray[i] = _answerA;
+                    proposals[4 * i] = string.Join(" ", questionArray);
+
+                    questionArray[i] = _answerB;
+                    proposals[4 * i + 1] = string.Join(" ", questionArray);
+
+                    questionArray[i] = _answerC;
+                    proposals[4 * i + 2] = string.Join(" ", questionArray);
+
+                    questionArray[i] = _answerD;
+                    proposals[4 * i + 3] = string.Join(" ", questionArray);
+                }
+
                 return new string[]{_question + " " + _answerA,
                     _question + " " + _answerB,
                     _question + " " + _answerC,
                     _question + " " + _answerD};
+                //return proposals;
             }
         }
 

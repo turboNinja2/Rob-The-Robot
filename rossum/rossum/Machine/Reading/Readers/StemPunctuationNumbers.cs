@@ -2,11 +2,11 @@
 using System.Linq;
 using Iveonik.Stemmers;
 using rossum.Machine.Reading;
-using rossum.Machine.Reading.Readers.Stopwords;
+using System.Text.RegularExpressions;
 
 namespace rossum.Reading.Readers
 {
-    public class StemmingPunctuationStop4 : IReader
+    public class StemPunctuationNumber : IReader
     {
         IStemmer englishStemmer = new EnglishStemmer();
 
@@ -14,9 +14,10 @@ namespace rossum.Reading.Readers
         {
             line = StringHelper.RemovePunctuation(line);
 
-            SQLStopWords sw = new SQLStopWords();
+            Regex numbers = new Regex("[0-9]+");
+            line = numbers.Replace(line, "num");
 
-            line = String.Join(" ", line.Split(' ').Where(c => !sw.Contains(c)).Select(c => englishStemmer.Stem(c)));
+            line = String.Join(" ", line.Split(' ').Select(c => englishStemmer.Stem(c)));
             return line;
         }
     }
