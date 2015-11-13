@@ -1,2 +1,2 @@
-.\rossum\rossum\bin\x64\Release\rossum.exe -merge ./submissions/12/
+.\rossum\rossum\bin\x64\Release\rossum.exe -merge ./submissions/13/
 pause

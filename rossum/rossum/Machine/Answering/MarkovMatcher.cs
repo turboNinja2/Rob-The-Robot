@@ -110,7 +110,7 @@ namespace rossum.Machine.Answering
                 int[] candidates = likelihoods.Select((b, i) =>
                     b == targetLikelihood ? i : -1).Where(i => i != -1).ToArray();
                 return String.Join(" ", candidates.Select(c =>
-                    IntToAnswers.ToAnswer(c) + ":" + (1f / candidates.Length).ToString().Replace(',', '.')));
+                    IntToAnswers.ToAnswer(c % 4) + ":" + (1f / candidates.Length).ToString().Replace(',', '.')));
             }
             else
             {

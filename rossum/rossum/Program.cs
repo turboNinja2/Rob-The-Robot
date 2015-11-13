@@ -64,7 +64,7 @@ namespace rossum
 
             if (markov)
             {
-                for (int epochs = 1; epochs < 4; epochs++)
+                for (int epochs = 1; epochs < 3; epochs++)
                 {
                     for (int order = 0; order < 3; order += 2)
                     {
