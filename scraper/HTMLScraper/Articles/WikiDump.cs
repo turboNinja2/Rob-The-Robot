@@ -3,6 +3,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml;
 using rossum.Files;
+using System.Collections.Generic;
 
 namespace HTMLScraper.Articles
 {
@@ -15,6 +16,10 @@ namespace HTMLScraper.Articles
             string outFilePath = folder + "Wiki.ency";
             string[] filesPaths = Directory.GetFiles(folder);
 
+            int linesRead = 0;
+
+            List<string> buffer = new List<string>();
+
             File.WriteAllText(outFilePath, "");
 
             foreach (string filePath in filesPaths)
@@ -22,7 +27,10 @@ namespace HTMLScraper.Articles
                 string rawArticle = "";
                 foreach (string line in LinesEnumerator.YieldLines(filePath))
                 {
+
                     rawArticle += line;
+
+                    linesRead++;
                     if (line.Contains("</page>"))
                     {
                         XmlDocument xmlArticle = new XmlDocument();
@@ -38,15 +46,25 @@ namespace HTMLScraper.Articles
                             innerText = CleanArticle(innerText);
                             if (innerText.StartsWith("#REDIRECT")) continue;
 
+                            buffer.Add(innerText);
 
-                            File.AppendAllText(outFilePath, innerText + Environment.NewLine);
+
                         }
                         catch
                         {
                             rawArticle = "";
                             continue;
                         }
+
+
+
                         rawArticle = "";
+                    }
+
+                    if (buffer.Count > 100)
+                    {
+                        File.AppendAllLines(outFilePath, buffer);
+                        buffer.Clear();
                     }
                 }
             }
@@ -113,6 +131,8 @@ namespace HTMLScraper.Articles
             article = article.Replace("|", " ");
             article = article.Replace(":", " ");
             article = article.Replace(";", " ");
+            article = article.Replace("}", " ");
+            article = article.Replace("{", " ");
 
             Regex multipleSpaces = new Regex("[ ]+");
             article = multipleSpaces.Replace(article, " ");
