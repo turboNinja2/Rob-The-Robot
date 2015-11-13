@@ -20,7 +20,7 @@ namespace rossum
 
             bool train = true;
             bool proba = false;
-            bool markov = false;
+            bool markov = true;
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -68,12 +68,17 @@ namespace rossum
                 {
                     for (int order = 0; order < 3; order += 2)
                     {
+                        Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, false, train, proba,
+                            questionFilePath, encyclopediaFilePath, outFolder);
+
+                        Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, true, train, proba,
+                            questionFilePath, encyclopediaFilePath, outFolder);
+
                         Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, false, train, proba,
                             questionFilePath, encyclopediaFilePath, outFolder);
 
                         Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, true, train, proba,
                             questionFilePath, encyclopediaFilePath, outFolder);
-
                     }
                 }
             }
@@ -103,13 +108,8 @@ namespace rossum
 
                 Pipeline.MetricRun(new ElargedSW(), new StemPunctuationY(), new TFIDF(encyclopediaFilePath, questionFilePath, new ElargedSW(), new StemPunctuationY(), train), new InformationDiffusion(),
                       nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
             }
 
-            Console.ReadKey();
-            Console.ReadKey();
-            Console.ReadKey();
-            Console.ReadKey();
         }
     }
 }
