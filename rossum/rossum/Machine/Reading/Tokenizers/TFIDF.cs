@@ -20,7 +20,7 @@ namespace rossum.Machine.Reading.Tokenizers
 
             foreach (string line in LinesEnumerator.YieldLines(filePath1))
             {
-                List<string> res = reader.Read(reworder.Map(line)).Split(' ').ToList();
+                List<string> res = reader.Read(ReworderHelper.Map(line, reworder)).Split(' ').ToList();
 
                 foreach (string element in res.Distinct())
                 {
@@ -41,7 +41,7 @@ namespace rossum.Machine.Reading.Tokenizers
                 RawQuestion rq = new RawQuestion(line, train);
                 string[] combinations = rq.GetCombinations();
                 for (int i = 0; i < combinations.Length; i++)
-                    foreach (string element in reader.Read(reworder.Map(combinations[i])).Split(' ').Distinct())
+                    foreach (string element in reader.Read(ReworderHelper.Map(combinations[i], reworder)).Split(' ').Distinct())
                     {
                         if (_idf.ContainsKey(element))
                             _idf[element]++;

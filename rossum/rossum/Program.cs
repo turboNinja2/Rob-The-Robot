@@ -13,8 +13,8 @@ namespace rossum
         {
             Console.WriteLine(";tl Started : " + DateTime.Now.ToString());
 
-            string questionFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\data\training_set.tsv",
-                encyclopediaFilePath = @"C:\Users\Julien\Desktop\KAGGLE\Competitions\Rob-The-Robot\scraper\All.ency",
+            string questionFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\data\training_set.tsv",
+                encyclopediaFilePath = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\scraper\All.ency",
                 outFolder = @"C:\Users\Windows\Desktop\R\Rob-The-Robot\submissions\12\",
                 synonymsFilePath = "";
 
@@ -90,6 +90,10 @@ namespace rossum
 
                 Pipeline.MetricRun(new ElargedSW(), new StemPunctuation(), new Counts(), new NormalizedJaccard(),
                     nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MetricRun(new ElargedSW(), new StemPunctuationY(), new Counts(), new NormalizedJaccard(),
+                    nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
+
 
                 Pipeline.MetricRun(new GoogleSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new GoogleSW(), new StemPunctuation(), train), new InformationDiffusion(),
                       nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);

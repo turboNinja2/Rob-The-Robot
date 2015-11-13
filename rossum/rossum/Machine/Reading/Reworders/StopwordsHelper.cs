@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace rossum.Machine.Reading.Reworders
 {
@@ -7,7 +8,12 @@ namespace rossum.Machine.Reading.Reworders
     {
         public static string Map(string input, IReworder reworder)
         {
-            return String.Join(" ", input.Split(' ').Select(c => reworder.Map(c.ToLower())));
+            string res = String.Join(" ", input.Split(' ').Select(c => reworder.Map(c.ToLower())));
+
+            Regex multipleSpaces = new Regex("[ ]+");
+            res = multipleSpaces.Replace(res, " ");
+            return res;
+
         }
     }
 }

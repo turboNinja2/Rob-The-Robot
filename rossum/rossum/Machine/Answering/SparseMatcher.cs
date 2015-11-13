@@ -54,7 +54,7 @@ namespace rossum.Machine.Answering
 
                 for (int i = 0; i < proposals.Length; i++)
                 {
-                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(_reader.Read(_reworder.Map(proposals[i])));
+                    IDictionary<string, double> readQuestion = _tokenizer.Tokenize(_reader.Read(ReworderHelper.Map(proposals[i], _reworder)));
                     distancesToEncyclopedia[i] = learner.DistanceToClosestPoint(readQuestion);
                 }
 

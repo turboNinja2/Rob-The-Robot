@@ -17,7 +17,7 @@ namespace rossum.Reading
 
             foreach (string line in LinesEnumerator.YieldLines(filePath))
             {
-                IDictionary<string, double> res = tokenizer.Tokenize(reader.Read(reworder.Map(line)));
+                IDictionary<string, double> res = tokenizer.Tokenize(reader.Read(ReworderHelper.Map(line,reworder)));
 
                 encyclopedia.Add(res);
                 linesRead++;
