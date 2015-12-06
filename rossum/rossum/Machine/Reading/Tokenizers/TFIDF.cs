@@ -15,7 +15,7 @@ namespace rossum.Machine.Reading.Tokenizers
 
         public TFIDF(string filePath1, string filePath2, IReworder reworder, IReader reader, bool train)
         {
-            Console.Write("Preparing IDF");
+            Console.Write(Environment.NewLine + "Preparing IDF");
             int linesRead = 0;
 
             foreach (string line in LinesEnumerator.YieldLines(filePath1))
