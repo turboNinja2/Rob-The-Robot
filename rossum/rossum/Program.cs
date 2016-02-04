@@ -64,26 +64,25 @@ namespace rossum
 
             if (markov)
             {
-                for (int epochs = 1; epochs < 3; epochs++)
-                {
-                    for (int order = 0; order < 3; order += 2)
-                    {
-                        Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, false, train, proba,
-                            questionFilePath, encyclopediaFilePath, outFolder);
+                int epochs = 2,
+                    order = 1;
 
-                        Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, true, train, proba,
-                            questionFilePath, encyclopediaFilePath, outFolder);
+                Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, false, train, proba,
+                    questionFilePath, encyclopediaFilePath, outFolder);
 
-                        Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, false, train, proba,
-                            questionFilePath, encyclopediaFilePath, outFolder);
+                Pipeline.MarkovRun(new StemPunctuation(), new GoogleSW(), order, epochs, true, train, proba,
+                    questionFilePath, encyclopediaFilePath, outFolder);
 
-                        Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, true, train, proba,
-                            questionFilePath, encyclopediaFilePath, outFolder);
-                    }
-                }
+                Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, false, train, proba,
+                    questionFilePath, encyclopediaFilePath, outFolder);
+
+                Pipeline.MarkovRun(new StemPunctuationY(), new ElargedSW(), order, epochs, true, train, proba,
+                    questionFilePath, encyclopediaFilePath, outFolder);
+
+
             }
 
-            int[] nbNeighboursArray = new int[] { 3, 5, 8, 10, 12, 15, 20 };
+            int[] nbNeighboursArray = new int[] { 3, 5, 8, 10, 12, 15 };
 
             foreach (int nbNeighbours in nbNeighboursArray)
             {
@@ -106,16 +105,6 @@ namespace rossum
                 Pipeline.MetricRun(new ElargedSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new ElargedSW(), new StemPunctuation(), train), new InformationDiffusion(),
                       nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
 
-
-
-                Pipeline.MetricRun(new GoogleSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new GoogleSW(), new StemPunctuation(), train), new CosineDistance(),
-                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-                Pipeline.MetricRun(new SQLSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new SQLSW(), new StemPunctuation(), train), new CosineDistance(),
-                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
-
-                Pipeline.MetricRun(new ElargedSW(), new StemPunctuation(), new TFIDF(encyclopediaFilePath, questionFilePath, new ElargedSW(), new StemPunctuation(), train), new CosineDistance(),
-                      nbNeighbours, train, proba, questionFilePath, encyclopediaFilePath, outFolder);
             }
 
         }

@@ -12,8 +12,12 @@ namespace rossum.Tools
             string[] splitted = line.Split(' ');
             Histogram<string> dic = new Histogram<string>();
             foreach (string elt in splitted)
-                dic.UpdateKey(elt.Split(':')[0], Convert.ToDouble(elt.Split(':')[1].Replace('.',',')));
-            
+            {
+                if (elt.Contains(":"))
+                    dic.UpdateKey(elt.Split(':')[0], Convert.ToDouble(elt.Split(':')[1].Replace('.', ',')));
+                else
+                    dic.UpdateKey(elt, 1);
+            }
             return dic;
         }
 
